@@ -24,7 +24,7 @@ export function TabsForm() {
         <CodeForm setValue={setValue} value={value} />
       </TabsContent>
       <TabsContent value='password'>
-        <PasswordForm setValue={setValue} value={value} />
+        <PasswordForm />
       </TabsContent>
     </Tabs>
   );

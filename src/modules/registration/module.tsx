@@ -1,4 +1,3 @@
-import Link from 'next/link';
 import { RegisterForm } from './flows/register-form';
 
 export const RegistrationModule = () => {
@@ -11,12 +10,6 @@ export const RegistrationModule = () => {
       </p>
       <div className='w-1 h-1 animate-grow bg-[#F861FA]/85 absolute blur-2xl' />
       <RegisterForm />
-      <p className='mt-[25px] text-sm text-white font-rubik flex gap-2'>
-        Don`t have an account ?
-        <Link href='/authorization' className='text-[#AE0389] cursor-pointer'>
-          Create account
-        </Link>
-      </p>
     </div>
   );
 };
