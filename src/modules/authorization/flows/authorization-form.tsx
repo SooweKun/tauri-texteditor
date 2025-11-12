@@ -12,6 +12,7 @@ type InputsType = {
   id: number;
   type: keyof AuthFormType;
   prefix?: string;
+  link?: string;
 };
 
 const Inputs: InputsType[] = [
@@ -27,6 +28,7 @@ const Inputs: InputsType[] = [
     id: 2,
     prefix: 'forgot password ?',
     type: 'password',
+    link: 'forgot-password',
   },
 ];
 
@@ -60,13 +62,14 @@ export const AuthForm = () => {
 
   return (
     <form className='w-full flex flex-col gap-7 pt-10' onSubmit={handleSubmit(onSubmit)} noValidate>
-      {Inputs.map(({ label, placeholder, id, prefix, type }) => (
+      {Inputs.map(({ label, placeholder, id, prefix, type, link }) => (
         <InputWithLabel
           label={label}
           placeholder={placeholder}
           key={id}
           prefix={prefix}
           type={type}
+          link={link}
           {...register(type as keyof AuthFormType)}
           errorMessage={errors[type]?.message}
         />

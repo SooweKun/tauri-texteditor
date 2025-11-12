@@ -1,6 +1,6 @@
 @import url('https://fonts.googleapis.com/css2?family=Rubik:ital,wght@0,300..900;1,300..900&display=swap');
 @import 'tailwindcss';
-@import "tw-animate-css";
+@import 'tw-animate-css';
 
 @custom-variant dark (&:is(.dark *));
 
@@ -122,5 +122,21 @@
   }
   body {
     @apply bg-background text-foreground;
+  }
+}
+
+@theme {
+  --animate-grow: grow 1.7s ease-in-out infinite;
+
+  @keyframes grow {
+    0% {
+      box-shadow: 0 0 245px 105px #f861fa;
+    }
+    50% {
+      box-shadow: 0 0 250px 110px #f861fa;
+    }
+    100% {
+      box-shadow: 0 0 245px 105px #f861fa;
+    }
   }
 }

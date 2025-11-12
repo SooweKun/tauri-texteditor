@@ -1,7 +1,7 @@
 import { NextResponse, type NextRequest } from 'next/server';
 import { Authmiddleware } from './middleware/auth';
 
-export async function middleware(request: NextRequest) {
+export async function proxy(request: NextRequest) {
   const authResponse = Authmiddleware(request);
   if (authResponse) {
     return authResponse;
