@@ -1,10 +1,29 @@
+'use client'; // потом вынести за модуль логику что бы избежать гидрации и не делать его клиентским
+import Resize from '@/src/assets/resize-test.svg';
+import { Tooltip, TooltipContent, TooltipTrigger } from '@/src/components/ui/tooltip';
+import Image from 'next/image';
+import { useState } from 'react';
 import { Chart } from './feature/chart';
 import { UserInfo } from './feature/user-info';
 
 export const ProfileModule = () => {
+  const [width, setWidth] = useState(true);
+
+  const changeWidth = () => {
+    setWidth((prev) => !prev);
+  };
+
   return (
-    <div className='w-full max-w-3xl'>
-      <div className='w-full flex justify-between pt-10'>
+    <div className={`w-full ${width ? 'max-w-5xl' : 'max-w-3xl'} px-2 pt-6 gap-4 flex flex-col`}>
+      <Tooltip>
+        <TooltipTrigger asChild>
+          <Image src={Resize} alt='nf' className='w-6 h-6 cursor-pointer' onClick={changeWidth} />
+        </TooltipTrigger>
+        <TooltipContent side='bottom'>
+          <p>изменение ширины</p>
+        </TooltipContent>
+      </Tooltip>
+      <div className='w-full flex justify-between'>
         <div className='flex flex-col gap-2.5'>
           <UserInfo />
           <div className='pl-2.5'>
