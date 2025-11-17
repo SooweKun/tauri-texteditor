@@ -24,6 +24,9 @@
 .DS_Store
 *.pem
 
+# tauri
+/target
+
 # debug
 npm-debug.log*
 yarn-debug.log*
