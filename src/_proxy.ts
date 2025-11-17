@@ -4,7 +4,7 @@ import { Authmiddleware } from './middleware/auth';
 export async function proxy(request: NextRequest) {
   const authResponse = Authmiddleware(request);
   if (authResponse) {
-    return authResponse;
+    return null;
   }
 
   return NextResponse.next();

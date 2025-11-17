@@ -2,12 +2,11 @@
   "$schema": "../node_modules/@tauri-apps/cli/config.schema.json",
   "productName": "tauri-texteditor",
   "version": "0.1.0",
-  "identifier": "com.tauri.dev",
+  "identifier": "tao.tauri-texteditor",
   "build": {
     "frontendDist": "../out",
     "devUrl": "http://localhost:3000",
-    "beforeDevCommand": "bun dev",
-    "beforeBuildCommand": "bun build"
+    "beforeBuildCommand": null
   },
   "app": {
     "windows": [
@@ -16,11 +15,15 @@
         "width": 800,
         "height": 600,
         "resizable": true,
-        "fullscreen": false
+        "fullscreen": false,
+        "devtools": true
       }
     ],
     "security": {
-      "csp": null
+      "csp": "default-src 'self'; script-src 'self' 'unsafe-inline'; style-src 'self' 'unsafe-inline'",
+      "assetProtocol": {
+        "enable": true
+      }
     }
   },
   "bundle": {
@@ -40,7 +43,8 @@
         "type": "downloadBootstrapper"
       },
       "wix": {
-        "template": "./windows/fragment/installer.wxs"
+        "template": "./windows/fragment/installer.wxs",
+        "language": ["en-US", "ru-RU"]
       }
     }
   }

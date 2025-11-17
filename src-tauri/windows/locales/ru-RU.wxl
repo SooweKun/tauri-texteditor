@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="utf-8"?>
+<WixLocalization Culture="ru-RU" xmlns="http://schemas.microsoft.com/wix/2006/localization">
+    <!-- Этот текст будет в заголовке окна выбора языка -->
+    <String Id="Language">Русский</String>
+
+    <!-- Это описание вашего приложения в "Установке и удалении программ" -->
+    <String Id="Description">Моё Потрясающее Приложение</String>
+
+    <!-- Комментарий в "Установке и удалении программ" -->
+    <String Id="Comments">Установщик для Моего Потрясающего Приложения</String>
+
+    <!-- Ключевые слова для поиска -->
+    <String Id="Keywords">tauri, rust, потрясающее</String>
+</WixLocalization>
