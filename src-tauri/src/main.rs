@@ -1,8 +1,15 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use std::path::PathBuf;
 use std::fs::{self, File};
+use serde::Serialize;
 
-#[tauri::command] // применяется то бы функцию можно было вызвать из invoke 
+#[derive(Serialize, Debug)]
+struct FileInfo {
+    path: String,
+    name: String,
+}
+
+#[tauri::command] // применяется что бы функцию можно было вызвать из invoke 
 fn open_file(path: String) -> Result<String, String> { // применяем path: String и возвращаем Rusult<String, String> как наш путь и обработку
     fs::read_to_string(PathBuf::from(path))
         .map_err(|e| e.to_string())
@@ -17,10 +24,10 @@ fn save_file(content: String, path: String) -> Result<(), String> {
 #[tauri::command]
 fn create_file(path: String) -> Result<(), String> {
     // File::create_new создает новый файл и возвращает ошибку, если он уже существует.
-    // Это атомарная операция, что предотвращает гонку состояний (race conditions).
+    // это атомарная операция, что предотвращает гонку состояний (race conditions).
     File::create_new(PathBuf::from(path))
-        .map(|_| ()) // В случае успеха отбрасываем результат (обработчик файла) и возвращаем пустой Ok
-        .map_err(|e| e.to_string()) // В случае ошибки превращаем ее в строку для фронтенда
+        .map(|_| ()) // в случае успеха отбрасываем результат (обработчик файла) и возвращаем пустой Ok
+        .map_err(|e| e.to_string()) // в случае ошибки превращаем ее в строку для фронтенда
 }
 
 #[tauri::command]
@@ -29,11 +36,40 @@ fn delete_file(path: String) -> Result<(), String> {
         .map_err(|e| e.to_string())
 }
 
+#[tauri::command]
+fn get_files(path: String) -> Result<Vec<FileInfo>, String> {
+    use std::path::Path;
+    
+    let file_list: Vec<FileInfo> = std::fs::read_dir(Path::new(&path))
+        .map_err(|e| e.to_string())?
+        .filter_map(|entry| {
+            entry.ok().and_then(|e| {
+                if e.file_type().ok()?.is_file() {
+                    let file_path = e.path();
+                    let path_str = file_path.to_str()?.to_string();
+                    let name = file_path
+                        .file_stem()?
+                        .to_str()?
+                        .to_string();
+                    
+                    Some( FileInfo {
+                        path: path_str,
+                        name,
+                    })
+                } else {
+                    None
+                }
+            })
+        })
+        .collect();
+    
+    println!("file_list: {:?}", file_list);
+    Ok(file_list)
+}
+
 fn main() {
     tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![save_file, open_file, create_file, delete_file])
+    .invoke_handler(tauri::generate_handler![save_file, open_file, create_file, delete_file, get_files])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
-
-
