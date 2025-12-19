@@ -10,8 +10,9 @@ export const GetFiles = () => {
   return useQuery({
     queryKey: ['files'],
     queryFn: async () => {
-      const path = `C:/Users/apext/program/tauri-texteditor/tmp/`;
+      const path = `C:/Users/Sowe/program/tauri-texteditor/tmp`;
       const data = await invoke<BackendReault[]>('get_files', { path: path });
+      console.log(data, 'data in hook');
 
       return data;
     },

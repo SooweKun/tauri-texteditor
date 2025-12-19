@@ -1,9 +1,9 @@
 'use client';
 import { useState } from 'react';
-import { Button } from '../ui/button';
-import { Tooltip, TooltipContent, TooltipTrigger } from '../ui/tooltip';
+import { Button } from '../../../../components/ui/button';
+import { Tooltip, TooltipContent, TooltipTrigger } from '../../../../components/ui/tooltip';
 
-// отрефакторить эту хуйню, честно лень щас на компачи разбирать да и оно все вообще как лайаут написанно ( ну дурак я не подумал сразу )
+// отрефакторить эту хуйню, честно лень щас на компачи разбирать
 export const SideBar = () => {
   const [size, setSize] = useState(true);
 
