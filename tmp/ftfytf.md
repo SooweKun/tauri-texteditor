@@ -1,5 +1,0 @@
-tytytytyt
-
-ninini
-
-ryryry
