@@ -7,6 +7,7 @@
 @theme {
   --font-rubik: 'Rubik', sans-serif;
   --shadow-grow: 0 0 250px 110px #f861fa;
+  --shadow-polinka: 0 0 3px 3px black;
 }
 
 @theme inline {
