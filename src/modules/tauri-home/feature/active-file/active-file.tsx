@@ -6,10 +6,12 @@ import { GetFiles } from '@/src/modules/tauri-home/hooks/getfiles';
 import Image from 'next/image';
 import { useState } from 'react';
 import { DeleteFile } from '../../hooks/delete-file';
+import { ReadFile } from '../../hooks/read-file';
 
 export const ActiveFile = () => {
   const { data } = GetFiles();
   const { mutate } = DeleteFile();
+  const { mutate: mutateRead } = ReadFile();
   console.log(data, 'active file');
   const [active, setActive] = useState<string | null>(null);
 
@@ -23,6 +25,7 @@ export const ActiveFile = () => {
                 variant='ghost'
                 className='focus:bg-[#262626] flex gap-6'
                 onClick={() => {
+                  mutateRead(path);
                   setActive(name);
                   console.log(path, 'path file');
                 }}>

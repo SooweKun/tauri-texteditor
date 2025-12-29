@@ -2,6 +2,7 @@
 use std::path::PathBuf;
 use std::fs::{self, File};
 use serde::Serialize;
+use std::io::Read;
 
 #[derive(Serialize, Debug)]
 struct FileInfo {
@@ -10,9 +11,29 @@ struct FileInfo {
 }
 
 #[tauri::command] // применяется что бы функцию можно было вызвать из invoke 
-fn open_file(path: String) -> Result<String, String> { // применяем path: String и возвращаем Rusult<String, String> как наш путь и обработку
-    fs::read_to_string(PathBuf::from(path))
-        .map_err(|e| e.to_string())
+fn open_file(path: String)  { // применяем path: String и возвращаем Rusult<String, String> как наш путь и обработку
+    let data_result = File::open(path);
+    let data_file = match data_result {
+        Ok(file) => file,
+        Err(error) => panic!("Problem opening the data file: {:?}", error),
+    };
+
+    println!("Data file: {:?}", data_file);
+}
+
+#[tauri::command]
+fn read_file(path: String) -> Result<String, String> {
+    let mut data_file = File::open(path)
+        .map_err(|e| e.to_string())?;
+
+    let mut data_content = String::new();
+
+    data_file.read_to_string(&mut data_content)
+        .map_err(|e| e.to_string())?;
+
+    println!("Data file content: {:?}", data_content);
+
+    Ok(data_content)
 }
 
 #[tauri::command]
@@ -69,7 +90,7 @@ fn get_files(path: String) -> Result<Vec<FileInfo>, String> {
 
 fn main() {
     tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![save_file, open_file, create_file, delete_file, get_files])
+    .invoke_handler(tauri::generate_handler![save_file, open_file, create_file, delete_file, get_files, read_file])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
