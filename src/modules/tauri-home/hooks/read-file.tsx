@@ -1,7 +1,9 @@
-import { useMutation } from '@tanstack/react-query';
+import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
 
 export const ReadFile = () => {
+  const queryClient = useQueryClient();
+
   return useMutation({
     mutationKey: ['readFile'],
     mutationFn: async (path: string) => {
@@ -15,6 +17,7 @@ export const ReadFile = () => {
     },
     onSuccess: (data) => {
       console.log(data);
+      queryClient.setQueryData(['fileContent'], data);
     },
   });
 };

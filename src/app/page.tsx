@@ -4,7 +4,7 @@ import { WebHomeModule } from '../modules/web-home/module';
 
 export default function Home() {
   return (
-    <div className='w-full h-screen flex justify-center items-center'>
+    <div className='w-full h-screen flex '>
       <RoutDispatcher TauriComponent={<TauriHomeModule />} WebComponent={<WebHomeModule />} />
     </div>
   );

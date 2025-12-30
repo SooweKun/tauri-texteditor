@@ -15,7 +15,7 @@ export const ObserverLayout = ({ children }: Readonly<{ children: React.ReactNod
       <HeaderTauri sizeFunc={sizeFunc} />
       <div className='w-full flex-1 min-h-0 flex gap-1.5'>
         <SideBar size={size} />
-        <div className='w-full h-full bg-[#1a1a1a] rounded-t-sm flex justify-center items-center'>{children}</div>
+        <div className='w-full h-full bg-[#1a1a1a] rounded-t-sm flex '>{children}</div>
       </div>
     </div>
   );

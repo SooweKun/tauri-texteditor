@@ -2,7 +2,6 @@
 use std::path::PathBuf;
 use std::fs::{self, File};
 use serde::Serialize;
-use std::io::Read;
 
 #[derive(Serialize, Debug)]
 struct FileInfo {
@@ -22,18 +21,9 @@ fn open_file(path: String)  { // применяем path: String и возвра
 }
 
 #[tauri::command]
-fn read_file(path: String) -> Result<String, String> {
-    let mut data_file = File::open(path)
-        .map_err(|e| e.to_string())?;
-
-    let mut data_content = String::new();
-
-    data_file.read_to_string(&mut data_content)
-        .map_err(|e| e.to_string())?;
-
-    println!("Data file content: {:?}", data_content);
-
-    Ok(data_content)
+fn read_file(path: PathBuf) -> Result<String, String> {
+    fs::read_to_string(path)
+        .map_err(|e| e.to_string())
 }
 
 #[tauri::command]
