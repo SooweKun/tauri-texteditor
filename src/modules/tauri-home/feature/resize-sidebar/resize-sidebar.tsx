@@ -10,7 +10,7 @@ export const ResizeSidebar: FC<Props> = ({ resizeFunc }) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <Button variant='ghost' className='rounded-sm' onClick={resizeFunc}>
+        <Button variant='ghost' className='rounded-sm w-8 h-8 p-0' onClick={resizeFunc}>
           -
         </Button>
       </TooltipTrigger>
