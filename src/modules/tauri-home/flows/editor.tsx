@@ -27,5 +27,5 @@ export const Editor = () => {
     return () => view.current?.destroy();
   }, [content]);
 
-  return <div ref={editorRef} />;
+  return <div ref={editorRef} className='rounded-[5px]' />;
 };
