@@ -9,6 +9,12 @@ struct FileInfo {
     name: String,
 }
 
+#[derive(Serialize)]
+struct FileData {
+    content: String,
+    name: String,
+}
+
 #[tauri::command] // применяется что бы функцию можно было вызвать из invoke 
 fn open_file(path: String)  { // применяем path: String и возвращаем Rusult<String, String> как наш путь и обработку
     let data_result = File::open(path);
@@ -21,9 +27,22 @@ fn open_file(path: String)  { // применяем path: String и возвра
 }
 
 #[tauri::command]
-fn read_file(path: PathBuf) -> Result<String, String> {
-    fs::read_to_string(path)
-        .map_err(|e| e.to_string())
+fn read_file(path: PathBuf) -> Result<FileData, String> {
+
+    let name = path
+        .file_name()
+        .and_then(|os_str| os_str.to_str())
+        .ok_or_else(|| "Не удалось получить имя файла".to_string())?
+        .to_string();
+
+        let content = std::fs::read_to_string(&path)
+        .map_err(|err| format!("Ошибка при чтении файла: {}", err))?;
+
+        Ok(FileData {
+            name,
+            content,
+        })
+
 }
 
 #[tauri::command]
