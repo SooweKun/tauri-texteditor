@@ -1,5 +1,4 @@
 'use client';
-import richMarkdock from '@/src/shared/lib/rich-markdock';
 import { history, historyKeymap, indentWithTab } from '@codemirror/commands';
 import { markdown } from '@codemirror/lang-markdown';
 import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighting } from '@codemirror/language';
@@ -30,7 +29,6 @@ const extensions = [
   drawSelection(), // Красивое выделение
   syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
   markdown(), // Поддержка Markdown
-  richMarkdock(),
   bracketMatching(), // Подсветка парных скобок
   indentOnInput(), // Авто-отступ при вводе
   EditorView.lineWrapping, // Автоматический перенос длинных строк
