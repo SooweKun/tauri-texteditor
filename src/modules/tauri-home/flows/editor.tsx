@@ -5,6 +5,7 @@ import { bracketMatching, defaultHighlightStyle, indentOnInput, syntaxHighlighti
 import { drawSelection, EditorView, keymap } from '@codemirror/view';
 import { skipToken, useQuery } from '@tanstack/react-query';
 import CodeMirror from '@uiw/react-codemirror';
+import { livePreviewExtension } from 'cm6-livepreview-lib';
 import { BackendReadResault } from '../hooks/read-file';
 
 const myTheme = EditorView.theme({
@@ -29,6 +30,7 @@ const extensions = [
   drawSelection(), // Красивое выделение
   syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
   markdown(), // Поддержка Markdown
+  livePreviewExtension,
   bracketMatching(), // Подсветка парных скобок
   indentOnInput(), // Авто-отступ при вводе
   EditorView.lineWrapping, // Автоматический перенос длинных строк
