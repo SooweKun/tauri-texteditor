@@ -7,6 +7,7 @@ import { skipToken, useQuery } from '@tanstack/react-query';
 import CodeMirror from '@uiw/react-codemirror';
 import { livePreviewExtension } from 'cm6-livepreview-lib';
 import { BackendReadResault } from '../hooks/read-file';
+import { useSaveFile } from '../hooks/save-file';
 
 const myTheme = EditorView.theme({
   // вынести в отдельный файл все стили
@@ -49,6 +50,8 @@ export const Editor = () => {
     staleTime: Infinity,
   });
 
+  const { mutate } = useSaveFile();
+
   console.log(data, 'content');
 
   return (
@@ -63,7 +66,7 @@ export const Editor = () => {
           basicSetup={false} // отключаем базовые зависимости (пропс выше)
           theme={myTheme} // наша тема
           onChange={(value) => {
-            // как напишу функцию сюда мутейт просто вставлю )
+            mutate({ content: value, path: data?.path });
           }}
         />
       </div>

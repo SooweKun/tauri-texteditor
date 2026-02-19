@@ -1,18 +1,21 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
 
-export const useCreateFile = () => {
+type Props = {
+  path: string | undefined;
+  content: string;
+};
+
+export const useSaveFile = () => {
   const queryClient = useQueryClient();
 
   return useMutation({
-    mutationKey: ['createFile'],
-    mutationFn: async (data: string) => {
-      const path = `C:/Users/Sergey/program/tauri-texteditor/tmp/${data}.md`;
+    mutationKey: ['savefile'],
+    mutationFn: async ({ path, content }: Props) => {
       try {
-        await invoke('create_file', { path: path });
+        await invoke('save_file', { path: path, content: content });
       } catch (err) {
-        console.log('ошибка', err);
-        throw err;
+        console.log(err, 'err of save file');
       }
     },
     onSuccess: () => {

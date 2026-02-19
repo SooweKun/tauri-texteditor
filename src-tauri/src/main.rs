@@ -13,6 +13,7 @@ struct FileInfo {
 struct FileData {
     content: String,
     name: String,
+    path: PathBuf,
 }
 
 #[tauri::command] // применяется что бы функцию можно было вызвать из invoke 
@@ -41,6 +42,7 @@ fn read_file(path: PathBuf) -> Result<FileData, String> {
         Ok(FileData {
             name,
             content,
+            path
         })
 
 }

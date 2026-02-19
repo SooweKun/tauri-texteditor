@@ -4,6 +4,7 @@ import { invoke } from '@tauri-apps/api/core';
 export type BackendReadResault = {
   name: string;
   content: string;
+  path: string;
 };
 
 export const ReadFile = () => {
