@@ -18,7 +18,7 @@ export const HeaderTauri: FC<Props> = ({ sizeFunc, size }) => {
         <ResizeSidebar resizeFunc={sizeFunc} size={size} />
         <HeaderControll />
       </div>
-      <div className='flex justify-start flex-1 px-5' data-tauri-drag-region>
+      <div className='flex justify-start items-end flex-1 px-5 gap-2' data-tauri-drag-region>
         <CreateFile />
         <ActiveFile />
       </div>

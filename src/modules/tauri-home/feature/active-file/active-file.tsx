@@ -16,7 +16,7 @@ export const ActiveFile = () => {
   const [active, setActive] = useState<string | null>(null);
 
   return (
-    <div className='w-full flex gap-1.5' data-tauri-drag-region>
+    <div className='w-full flex items-end gap-1.5' data-tauri-drag-region>
       {data &&
         data.map(({ name, path }: BackendReault) => (
           <Tooltip key={name}>
