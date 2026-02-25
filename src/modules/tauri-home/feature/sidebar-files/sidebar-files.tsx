@@ -4,9 +4,10 @@ import DevtoolsIco from '@/src/assets/devtools-ico.svg';
 import NewFolderIco from '@/src/assets/new-folder-ico.svg';
 import { Button } from '@/src/components/ui/button';
 import { GetFiles, type BackendReault } from '@/src/modules/tauri-home/hooks/getfiles';
+import { useAtom } from 'jotai';
 import Image from 'next/image';
-import { useState } from 'react';
 import { DeleteFile } from '../../hooks/delete-file';
+import { activeFile } from '../../store/active-files';
 
 const IcoArr = [
   { ico: ChartIco, id: 1 },
@@ -18,7 +19,7 @@ export const SidebarFiles = () => {
   const { data } = GetFiles();
   const { mutate } = DeleteFile();
   console.log(data, 'active file');
-  const [active, setActive] = useState<string | null>(null);
+  const [file, setFile] = useAtom(activeFile);
 
   return (
     <div className='w-full bg-[#262626] rounded-sm flex-1 p-5 flex flex-col gap-4'>
@@ -37,15 +38,15 @@ export const SidebarFiles = () => {
             w-full justify-between transition-colors bg-transparent text-white h-[30px] text-[16px]
             hover:bg-[#D9D9D9]/30 
             focus:bg-[#D9D9D9]/30
-            ${active === name ? 'bg-[#D9D9D9]/30' : ''}
+            ${file === name ? 'bg-[#D9D9D9]/30' : ''}
           `}
               key={name}
               onClick={() => {
-                setActive(name);
+                setFile(name);
                 console.log(path, 'path file');
               }}>
               {name}
-              {active === name && <Image src={Close} alt='nf' className='w-2 h-2' onClick={() => mutate(path)} />}
+              {file === name && <Image src={Close} alt='nf' className='w-2 h-2' onClick={() => mutate(path)} />}
             </Button>
           ))}
       </div>

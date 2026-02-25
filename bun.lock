@@ -23,10 +23,12 @@
         "@uiw/react-codemirror": "^4.25.4",
         "class-variance-authority": "^0.7.1",
         "clsx": "^2.1.1",
+        "cm6-livepreview-lib": "^1.0.1",
         "cn": "^0.1.1",
         "codemirror": "^6.0.2",
         "input-otp": "^1.4.2",
         "install": "^0.13.0",
+        "jotai": "^2.18.0",
         "lucide-react": "^0.553.0",
         "next": "^16.0.3",
         "next-themes": "^0.4.6",
@@ -621,6 +623,8 @@
 
     "clsx": ["clsx@2.1.1", "", {}, "sha512-eYm0QWBtUrBWZWG0d386OGAw16Z995PiOVo2B7bjWSbHedGl5e0ZWaq65kOGgUSNesEIDkB9ISbTg/JK9dhCZA=="],
 
+    "cm6-livepreview-lib": ["cm6-livepreview-lib@1.0.1", "", { "peerDependencies": { "@codemirror/language": "^6.0.0", "@codemirror/state": "^6.0.0", "@codemirror/view": "^6.0.0" } }, "sha512-29vDjMigMxEAnkMmgr9YO4zHRsl2lk5NNipzYJs8BLNsrg4cPfPlyuW1QQsLu7CMNoEEhO7MLgTVd9iZMJ///w=="],
+
     "cn": ["cn@0.1.1", "", { "dependencies": { "request": "~2.21.0", "string": "~1.4.0" }, "bin": "bin/cn" }, "sha512-PkWPdg4L4aQEwqqkGzMclTdHlstGzBg773gBtsUCHqXrawQ8wQHf/490Rw2hXPaoI7QXYbCgI67Jfe25TjxLGw=="],
 
     "codemirror": ["codemirror@6.0.2", "", { "dependencies": { "@codemirror/autocomplete": "^6.0.0", "@codemirror/commands": "^6.0.0", "@codemirror/language": "^6.0.0", "@codemirror/lint": "^6.0.0", "@codemirror/search": "^6.0.0", "@codemirror/state": "^6.0.0", "@codemirror/view": "^6.0.0" } }, "sha512-VhydHotNW5w1UGK0Qj96BwSk/Zqbp9WbnyK2W/eVMv4QyF41INRGpjUhFJY7/uDNuudSc33a/PKr4iDqRduvHw=="],
@@ -912,6 +916,8 @@
     "iterator.prototype": ["iterator.prototype@1.1.5", "", { "dependencies": { "define-data-property": "^1.1.4", "es-object-atoms": "^1.0.0", "get-intrinsic": "^1.2.6", "get-proto": "^1.0.0", "has-symbols": "^1.1.0", "set-function-name": "^2.0.2" } }, "sha512-H0dkQoCa3b2VEeKQBOxFph+JAbcrQdE7KC0UkqwpLmv2EC4P41QXP+rqo9wYodACiG5/WM5s9oDApTU8utwj9g=="],
 
     "jiti": ["jiti@2.6.1", "", { "bin": "lib/jiti-cli.mjs" }, "sha512-ekilCSN1jwRvIbgeg/57YFh8qQDNbwDb9xT/qu2DAHbFFZUicIl4ygVaAvzveMhMVr3LnpSKTNnwt8PoOfmKhQ=="],
+
+    "jotai": ["jotai@2.18.0", "", { "peerDependencies": { "@babel/core": ">=7.0.0", "@babel/template": ">=7.0.0", "@types/react": ">=17.0.0", "react": ">=17.0.0" }, "optionalPeers": ["@babel/core", "@babel/template", "@types/react", "react"] }, "sha512-XI38kGWAvtxAZ+cwHcTgJsd+kJOJGf3OfL4XYaXWZMZ7IIY8e53abpIHvtVn1eAgJ5dlgwlGFnP4psrZ/vZbtA=="],
 
     "js-tokens": ["js-tokens@4.0.0", "", {}, "sha512-RdJUflcE3cUzKiMqQgsCu06FPu9UdIJO0beYbPhHN4k6apgJtifcoCtT9bcxOpYBtpD2kCM6Sbzg4CausW/PKQ=="],
 
