@@ -28,14 +28,12 @@ export const CreateFile = () => {
         </TooltipContent>
       </Tooltip>
       {value && (
-        <div className='flex flex-col gap-2 p-2 bg-amber-300 rounded-[15px] absolute top-[50px]'>
-          <form onSubmit={handleSubmit(onSubmit)}>
-            <input type='text' {...register('name')} />
-            <button type='submit' className='bg-amber-950 p-2'>
-              submit
-            </button>
-          </form>
-        </div>
+        <form onSubmit={handleSubmit(onSubmit)} className='flex gap-2 p-2 rounded-[15px] absolute  top-[40px]'>
+          <input type='text' {...register('name')} className='bg-[#FFFFFF]/30 rounded-[5px] h-[30px] pl-1.5' />
+          <button type='submit' className='bg-[#D9D9D9]/30 p-2 h-[30px] rounded-[5px] flex justify-center items-center'>
+            create
+          </button>
+        </form>
       )}
     </div>
   );
