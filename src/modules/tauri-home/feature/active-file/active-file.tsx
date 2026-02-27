@@ -31,7 +31,17 @@ export const ActiveFile = () => {
                   console.log(path, 'path file');
                 }}>
                 {name}
-                {file === name && <Image src={Close} alt='nf' className='w-2 h-2' onClick={() => mutate(path)} />}
+                {file === name && (
+                  <Image
+                    src={Close}
+                    alt='nf'
+                    className='w-2 h-2'
+                    onClick={(e) => {
+                      setFile(null);
+                      e.stopPropagation();
+                    }}
+                  />
+                )}
               </Button>
             </TooltipTrigger>
             <TooltipContent side='bottom'>

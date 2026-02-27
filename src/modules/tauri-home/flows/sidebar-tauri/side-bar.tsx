@@ -9,7 +9,6 @@ type Props = {
   size: boolean;
 };
 
-// отрефакторить эту хуйню, честно лень щас на компачи разбирать
 export const SideBar: FC<Props> = ({ size }) => {
   return (
     <div className='flex gap-1.5 h-full'>

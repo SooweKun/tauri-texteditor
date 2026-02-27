@@ -29,8 +29,8 @@ export const CreateFile = () => {
       </Tooltip>
       {value && (
         <form onSubmit={handleSubmit(onSubmit)} className='flex gap-2 p-2 rounded-[15px] absolute  top-[40px]'>
-          <input type='text' {...register('name')} className='bg-[#FFFFFF]/30 rounded-[5px] h-[30px] pl-1.5' />
-          <button type='submit' className='bg-[#D9D9D9]/30 p-2 h-[30px] rounded-[5px] flex justify-center items-center'>
+          <input type='text' {...register('name')} className='bg-[#363636] rounded-[5px] h-[30px] pl-1.5' />
+          <button type='submit' className='bg-[#363636] p-2 h-[30px] rounded-[5px] flex justify-center items-center'>
             create
           </button>
         </form>

@@ -7,6 +7,7 @@ import { GetFiles, type BackendReault } from '@/src/modules/tauri-home/hooks/get
 import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { DeleteFile } from '../../hooks/delete-file';
+import { ReadFile } from '../../hooks/read-file';
 import { activeFile } from '../../store/active-files';
 
 const IcoArr = [
@@ -18,10 +19,12 @@ const IcoArr = [
 export const SidebarFiles = () => {
   const { data } = GetFiles();
   const { mutate } = DeleteFile();
+  const { mutate: mutateRead } = ReadFile();
   console.log(data, 'active file');
   const [file, setFile] = useAtom(activeFile);
 
   return (
+    // нувно добавлять функцию поиска и заменять массив который мы видим чичас похожая функция есть в cloud-store
     <div className='w-full bg-[#262626] rounded-sm flex-1 p-5 flex flex-col gap-4'>
       <div className='w-full flex items-center gap-2'>
         {IcoArr.map(({ ico, id }) => (
@@ -43,10 +46,21 @@ export const SidebarFiles = () => {
               key={name}
               onClick={() => {
                 setFile(name);
+                mutateRead(path);
                 console.log(path, 'path file');
               }}>
               {name}
-              {file === name && <Image src={Close} alt='nf' className='w-2 h-2' onClick={() => mutate(path)} />}
+              {file === name && (
+                <Image
+                  src={Close}
+                  alt='nf'
+                  className='w-2 h-2'
+                  onClick={(e) => {
+                    setFile(null);
+                    e.stopPropagation();
+                  }}
+                />
+              )}
             </Button>
           ))}
       </div>

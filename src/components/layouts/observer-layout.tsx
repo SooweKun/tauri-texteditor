@@ -1,7 +1,7 @@
 'use client';
 import { HeaderTauri } from '@/src/modules/tauri-home/flows/header-tauri/header-tauri';
+import { SideBar } from '@/src/modules/tauri-home/flows/sidebar-tauri/side-bar';
 import { useState } from 'react';
-import { SideBar } from '../../modules/tauri-home/flows/sidebar-tauri/side-bar';
 
 export const ObserverLayout = ({ children }: Readonly<{ children: React.ReactNode }>) => {
   const [size, setSize] = useState(true);

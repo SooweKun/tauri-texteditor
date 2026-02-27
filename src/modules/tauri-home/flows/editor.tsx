@@ -7,8 +7,10 @@ import { styleTags, tags as t, Tag } from '@lezer/highlight';
 import { skipToken, useQuery } from '@tanstack/react-query';
 import CodeMirror from '@uiw/react-codemirror';
 import { livePreviewExtension } from 'cm6-livepreview-lib';
+import { useAtom } from 'jotai';
 import { BackendReadResault } from '../hooks/read-file';
 import { useSaveFile } from '../hooks/save-file';
+import { activeFile } from '../store/active-files';
 
 const markupTag = Tag.define();
 
@@ -80,14 +82,15 @@ export const Editor = () => {
     enabled: false,
     staleTime: Infinity,
   });
-
+  const [file] = useAtom(activeFile);
   const { mutate } = useSaveFile();
 
   console.log(data, 'content');
+  console.log(file, 'file');
 
   return (
     <div className='size-full flex justify-start items-center flex-col pt-[15px]'>
-      <div className='max-w-[900px] w-full'>
+      <div className={`max-w-[900px] w-full ${!file ? 'hidden' : 'block'}`}>
         <div className='w-full flex justify-start'>
           <h1 className='text-[20px] font-bold text-[#C09FE9]'>{data && data.name}</h1>
         </div>
