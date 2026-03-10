@@ -3,12 +3,11 @@ import Close from '@/src/assets/close.svg';
 import DevtoolsIco from '@/src/assets/devtools-ico.svg';
 import NewFolderIco from '@/src/assets/new-folder-ico.svg';
 import { Button } from '@/src/components/ui/button';
-import { GetFiles, type BackendReault } from '@/src/modules/tauri-home/hooks/getfiles';
+import { activeFile } from '@/src/modules/tauri-home/store/active-files';
 import { useAtom } from 'jotai';
 import Image from 'next/image';
-import { DeleteFile } from '../../hooks/delete-file';
-import { ReadFile } from '../../hooks/read-file';
-import { activeFile } from '../../store/active-files';
+import { BackendReault, GetFiles } from '../hooks/getfiles';
+import { ReadFile } from '../hooks/read-file';
 
 const IcoArr = [
   { ico: ChartIco, id: 1 },
@@ -16,16 +15,14 @@ const IcoArr = [
   { ico: DevtoolsIco, id: 3 },
 ];
 
-export const SidebarFiles = () => {
-  const { data } = GetFiles();
-  const { mutate } = DeleteFile();
+export const SideBarFiles = () => {
   const { mutate: mutateRead } = ReadFile();
-  console.log(data, 'active file');
   const [file, setFile] = useAtom(activeFile);
+  const { data } = GetFiles();
+  console.log(data, 'active file');
 
   return (
-    // нувно добавлять функцию поиска и заменять массив который мы видим чичас похожая функция есть в cloud-store
-    <div className='w-full bg-[#262626] rounded-sm flex-1 p-5 flex flex-col gap-4'>
+    <>
       <div className='w-full flex items-center gap-2'>
         {IcoArr.map(({ ico, id }) => (
           <Button className='p-2 h-max bg-transparent hover:bg-[#D9D9D9]/30' key={id}>
@@ -64,6 +61,6 @@ export const SidebarFiles = () => {
             </Button>
           ))}
       </div>
-    </div>
+    </>
   );
 };
