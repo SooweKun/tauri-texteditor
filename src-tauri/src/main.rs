@@ -28,6 +28,22 @@ fn open_file(path: String)  { // применяем path: String и возвра
 }
 
 #[tauri::command]
+fn search_file(path: PathBuf, name: String) -> Result<FileInfo, String> {
+    let file_list = std::fs::read_dir(&path)
+        .map_err(|e| format!("Ошибка при чтении директории: {}", e))?
+        .filter_map(Result::ok) // только что бы фильтровать успешные записи
+        .find(|file| file.file_name().to_string_lossy() == name);
+
+        match file_list {
+            Some(file) => Ok(FileInfo {
+                name: file.file_name().to_string_lossy().to_string(),
+            path: file.path().to_string_lossy().to_string(),
+            }),
+            None => Err(format!("файл '{}' не найден", name))
+        }
+}
+
+#[tauri::command]
 fn read_file(path: PathBuf) -> Result<FileData, String> {
 
     let name = path
@@ -101,7 +117,7 @@ fn get_files(path: String) -> Result<Vec<FileInfo>, String> {
 
 fn main() {
     tauri::Builder::default()
-    .invoke_handler(tauri::generate_handler![save_file, open_file, create_file, delete_file, get_files, read_file])
+    .invoke_handler(tauri::generate_handler![save_file, open_file, create_file, delete_file, get_files, read_file, search_file])
     .run(tauri::generate_context!())
     .expect("error while running tauri application");
 }
