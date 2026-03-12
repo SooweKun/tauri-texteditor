@@ -29,18 +29,31 @@ fn open_file(path: String)  { // применяем path: String и возвра
 
 #[tauri::command]
 fn search_file(path: PathBuf, name: String) -> Result<FileInfo, String> {
-    let file_list = std::fs::read_dir(&path)
-        .map_err(|e| format!("Ошибка при чтении директории: {}", e))?
-        .filter_map(Result::ok) // только что бы фильтровать успешные записи
-        .find(|file| file.file_name().to_string_lossy() == name);
+    let target_name = name.to_lowercase();
 
-        match file_list {
-            Some(file) => Ok(FileInfo {
-                name: file.file_name().to_string_lossy().to_string(),
-            path: file.path().to_string_lossy().to_string(),
-            }),
-            None => Err(format!("файл '{}' не найден", name))
-        }
+    let mut file_list = std::fs::read_dir(&path)
+        .map_err(|e| e.to_string())?
+        .filter_map(|entry| {
+            let e = entry.ok()?;
+            let path = e.path();
+
+            let stem = path.file_stem()?.to_str()?.to_lowercase();
+            let full_name = path.file_name()?.to_str()?.to_lowercase();
+
+            if stem == target_name || full_name == target_name {
+                Some( FileInfo {
+                    path: path.to_str()?.to_string(),
+                    name: stem.to_string(),
+                })
+            }
+            else {
+                None
+            }
+        });
+
+    file_list
+        .next()
+        .ok_or_else(|| format!("File '{}' not found in {:?}", name, path))       
 }
 
 #[tauri::command]

@@ -7,7 +7,7 @@ export const useCreateFile = () => {
   return useMutation({
     mutationKey: ['createFile'],
     mutationFn: async (data: string) => {
-      const path = `C:/Users/Sergey/program/tauri-texteditor/tmp/${data}.md`;
+      const path = `C:/Users/Sowe/program/tauri-texteditor/tmp/${data}.md`;
       try {
         await invoke('create_file', { path: path });
       } catch (err) {
