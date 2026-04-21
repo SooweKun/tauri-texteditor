@@ -121,6 +121,7 @@
   * {
     @apply border-border outline-ring/50;
   }
+
   body {
     @apply bg-background text-foreground;
   }
@@ -133,11 +134,37 @@
     0% {
       box-shadow: 0 0 245px 105px #f861fa;
     }
+
     50% {
       box-shadow: 0 0 250px 110px #f861fa;
     }
+
     100% {
       box-shadow: 0 0 245px 105px #f861fa;
+    }
+  }
+}
+
+@theme {
+  --animate-moon-glow: moon-glow 8s ease-in-out infinite;
+
+  @keyframes moon-glow {
+
+    0%,
+    100% {
+      box-shadow:
+        inset 10 -60px 100px -30px rgba(124, 58, 237, 0.7),
+        inset 10 -10px 30px -5px rgba(167, 139, 250, 0.8),
+        10 10 80px 10px rgba(124, 58, 237, 0.2);
+      opacity: 0.9;
+    }
+
+    50% {
+      box-shadow:
+        inset 0 -80px 120px -20px rgba(139, 92, 246, 0.9),
+        inset 0 -10px 45px -2px rgba(196, 181, 253, 1),
+        10 10 120px 30px rgba(124, 58, 237, 0.4);
+      opacity: 1;
     }
   }
 }
