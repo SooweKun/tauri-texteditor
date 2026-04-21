@@ -82,11 +82,10 @@ export const Editor = () => {
     enabled: false,
     staleTime: Infinity,
   });
-  const [file] = useAtom(activeFile);
+  const [file] = useAtom(activeFile); // убрать это отсюда нахуй
   const { mutate } = useSaveFile();
 
   console.log(data, 'content');
-  console.log(file, 'file');
 
   return (
     <div className='size-full flex justify-start items-center flex-col pt-[15px]'>

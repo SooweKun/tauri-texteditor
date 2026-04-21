@@ -1,4 +1,3 @@
-'use client';
 import { FC } from 'react';
 import { ProfileBtn } from '../../feature/profile-btn/profile-btn';
 import { SidebarControl } from '../../feature/sidebar-control';
