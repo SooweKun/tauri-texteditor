@@ -3,6 +3,8 @@ import { ProfileBtn } from '../../feature/profile-btn/profile-btn';
 import { SidebarControl } from '../../feature/sidebar-control';
 import { SidebarContent } from '../../feature/sidebar-files/sidebar-content';
 import { ValueBtn } from '../../feature/value-btn/value-btn';
+import { OpenChest } from '../chest';
+
 
 type Props = {
   size: boolean;
@@ -17,6 +19,7 @@ export const SideBar: FC<Props> = ({ size }) => {
       {size && (
         <div className='flex flex-col gap-1 pb-1 relative w-[320px]'>
           <SidebarContent />
+          <OpenChest />
           <ValueBtn />
           <ProfileBtn />
         </div>
