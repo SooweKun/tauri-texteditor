@@ -2,13 +2,15 @@ import { load } from '@tauri-apps/plugin-store';
 
 type systemData = {
   path: string;
+  name: string;
 };
 
 export const manageVaults = async (data: systemData) => {
   const store = await load('settings.json');
-  const existingVaults = (await store.get<string[]>('vaults')) || [];
+  const existingVaults = (await store.get<systemData[]>('vaults')) || [];
+  const isAlreadyExists = existingVaults.some((vault) => vault.path === data.path);
 
-  if (!existingVaults.includes(data.path)) {
+  if (!isAlreadyExists) {
     const updateVaults = [...existingVaults, data.path];
 
     await store.set('vaults', updateVaults);
@@ -16,8 +18,10 @@ export const manageVaults = async (data: systemData) => {
 
     console.log('Обновленные пути:', updateVaults);
     return updateVaults;
+  } else {
+    console.log('имя с таким хранидищем уже существует');
   }
 
-  console.log('Обновленные пути:', existingVaults);
+  console.log('existingVaults:', existingVaults);
   return existingVaults;
 };

@@ -2,7 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "enables the default permissions",
-  "windows": ["main", "secondary"],
+  "windows": ["main", "unboard"],
   "permissions": [
     "core:window:default",
     "core:webview:default",
@@ -11,6 +11,8 @@
     "core:window:allow-minimize",
     "core:window:allow-toggle-maximize",
     "core:window:allow-create",
-     "core:webview:allow-create-webview-window"
+    "core:webview:allow-create-webview-window",
+    "dialog:allow-open",
+    "dialog:allow-save"
   ]
 }

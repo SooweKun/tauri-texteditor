@@ -11,13 +11,27 @@
   "app": {
     "windows": [
       {
-        "title": "tao",
+        "label": "main",
+        "title": "Arima",
         "width": 1300,
         "height": 900,
         "resizable": true,
         "fullscreen": false,
         "devtools": true,
-        "decorations": false
+        "decorations": false,
+        "url": "/"
+      },
+      {
+        "label": "unboard",
+        "title": "unboard",
+        "width": 500,
+        "height": 550,
+        "resizable": false,
+        "fullscreen": false,
+        "devtools": true,
+        "decorations": false,
+        "url": "/unboard",
+        "center": true
       }
     ],
     "security": {
