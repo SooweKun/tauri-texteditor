@@ -2,7 +2,7 @@
   "$schema": "../gen/schemas/desktop-schema.json",
   "identifier": "default",
   "description": "enables the default permissions",
-  "windows": ["main", "unboard"],
+  "windows": ["main", "unboard", "chest"],
   "permissions": [
     "core:window:default",
     "core:webview:default",
@@ -13,6 +13,7 @@
     "core:window:allow-create",
     "core:webview:allow-create-webview-window",
     "dialog:allow-open",
-    "dialog:allow-save"
+    "dialog:allow-save",
+    "store:default"
   ]
 }

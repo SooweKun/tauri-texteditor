@@ -5,13 +5,21 @@ type systemData = {
   name: string;
 };
 
-export const manageVaults = async (data: systemData) => {
+export const getVaults = async (): Promise<systemData[]> => {
+  const store = await load('settings.json');
+  const vaults = await store.get<systemData[]>('vaults');
+  console.log(vaults);
+
+  return vaults || [];
+};
+
+export const setVaults = async (data: systemData) => {
   const store = await load('settings.json');
   const existingVaults = (await store.get<systemData[]>('vaults')) || [];
   const isAlreadyExists = existingVaults.some((vault) => vault.path === data.path);
 
   if (!isAlreadyExists) {
-    const updateVaults = [...existingVaults, data.path];
+    const updateVaults = [...existingVaults, data];
 
     await store.set('vaults', updateVaults);
     await store.save();

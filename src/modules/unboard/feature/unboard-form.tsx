@@ -1,4 +1,5 @@
 'use client';
+import { addVaults } from '@/src/components/hooks/system-hooks';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
@@ -7,6 +8,7 @@ import { useForm } from 'react-hook-form';
 
 export const UnboardForm = () => {
   const { register, handleSubmit, setValue } = useForm();
+  const { mutate } = addVaults();
 
   const selectFolder = async () => {
     try {
@@ -27,6 +29,7 @@ export const UnboardForm = () => {
   };
 
   const Submit = (data: any) => {
+    mutate(data);
     console.log(data, 'data');
   };
 

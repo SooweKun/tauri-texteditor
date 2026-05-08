@@ -124,6 +124,7 @@ fn get_files(path: String) -> Result<Vec<FileInfo>, String> {
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
+        .plugin(tauri_plugin_store::Builder::new().build())
         .invoke_handler(tauri::generate_handler![
             save_file,
             open_file,
