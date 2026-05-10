@@ -3,6 +3,7 @@ import { addVaults } from '@/src/components/hooks/system-hooks';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
+import { invoke } from '@tauri-apps/api/core';
 import { open } from '@tauri-apps/plugin-dialog';
 import { useForm } from 'react-hook-form';
 
@@ -29,7 +30,16 @@ export const UnboardForm = () => {
   };
 
   const Submit = (data: any) => {
-    mutate(data);
+    mutate(data, {
+      onSuccess: () => {
+        console.log('запрос выполнен успешно');
+
+        invoke('finish_unboarding').catch((err) => console.error('Ошибка переключения окон:', err));
+      },
+      onError: (err) => {
+        console.log(err, 'ошибка запроса');
+      },
+    });
     console.log(data, 'data');
   };
 

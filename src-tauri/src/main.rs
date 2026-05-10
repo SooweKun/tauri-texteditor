@@ -2,6 +2,8 @@
 use serde::Serialize;
 use std::fs::{self, File};
 use std::path::PathBuf;
+use tauri_plugin_store::StoreExt;
+use tauri::Manager;
 
 #[derive(Serialize, Debug)]
 struct FileInfo {
@@ -121,6 +123,18 @@ fn get_files(path: String) -> Result<Vec<FileInfo>, String> {
     Ok(file_list)
 }
 
+#[tauri::command]
+fn finish_unboarding(app: tauri::AppHandle) {
+    if let Some(main_window) = app.get_webview_window("main") {
+        main_window.show().unwrap();
+        main_window.set_focus().unwrap(); 
+    }
+
+    if let Some(unboard_window) = app.get_webview_window("unboard") {
+        unboard_window.close().unwrap();
+    }
+}
+
 fn main() {
     tauri::Builder::default()
         .plugin(tauri_plugin_dialog::init())
@@ -132,8 +146,29 @@ fn main() {
             delete_file,
             get_files,
             read_file,
-            search_file
+            search_file,
+            finish_unboarding
         ])
+        .setup(|app| {
+            let data = app.store("settings.json");
+            let main_window = app.get_webview_window("main").expect("Window 'main' not found");
+            let unboard_window = app.get_webview_window("unboard").expect("Window 'unboard' not found");
+
+            if let Some(item) = data?.get("vaults") {
+                let has_item = item.as_array().map(|arr| arr.is_empty()).unwrap_or(true); // как я понял нужно обязательно проверять массив ли это :/
+
+                if has_item {
+                    unboard_window.show()?;
+                    unboard_window.center()?;
+                } else {
+                    main_window.show()?;
+                }
+            }
+            else{
+               unboard_window.show()?;
+            }
+            Ok(())
+        })
         .run(tauri::generate_context!())
         .expect("error while running tauri application");
 }
