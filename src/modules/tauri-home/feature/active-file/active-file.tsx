@@ -11,7 +11,7 @@ import { activeFile } from '../../store/active-files';
 
 export const ActiveFile = () => {
   const { data } = GetFiles();
-  const { mutate } = DeleteFile();
+  const { mutate } = DeleteFile(); // потом заюзать это
   const { mutate: mutateRead } = ReadFile();
   console.log(data, 'active file');
   const [file, setFile] = useAtom(activeFile);

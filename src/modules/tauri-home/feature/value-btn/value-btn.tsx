@@ -1,12 +1,19 @@
 import ValueIco from '@/src/assets/value-items.svg';
 import { Tooltip, TooltipContent, TooltipTrigger } from '@/src/components/ui/tooltip';
 import Image from 'next/image';
+import { FC } from 'react';
 
-export const ValueBtn = () => {
+type Props = {
+  changeSet: () => void;
+};
+
+export const ValueBtn: FC<Props> = ({ changeSet }) => {
   return (
     <Tooltip>
       <TooltipTrigger asChild>
-        <div className='w-full h-[45px] shrink-0 bg-[#262626] rounded-sm flex gap-[10px] items-center border-[#1a1a1a] hover:border-4 cursor-pointer px-[15px]'>
+        <div
+          className='w-full h-[45px] shrink-0 bg-[#262626] rounded-sm flex gap-[10px] items-center border-[#1a1a1a] hover:border-4 cursor-pointer px-[15px]'
+          onClick={changeSet}>
           <div className='flex items-center bg-[#D9D9D9]/30 flex-1 h-[28px] rounded-sm px-[10px] gap-[15px] items-center'>
             <Image src={ValueIco} alt='nf' className='w-[9px] h-[15px]' />
             <h1 className='text-[12px]'>name... vault</h1>

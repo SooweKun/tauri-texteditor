@@ -20,7 +20,7 @@ export const OpenChest = () => {
   };
 
   return (
-    <button onClick={Create} className='cursor-pointer'>
+    <button onClick={Create} className='cursor-pointer w-full h-[25px] hover:bg-[#a8a4a4] rounded-[3px] text-left pl-2'>
       Управление хранилищем
     </button>
   );

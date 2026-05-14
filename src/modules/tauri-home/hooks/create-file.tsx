@@ -1,13 +1,16 @@
+import { vaultStore } from '@/src/components/store/vaults';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
+import { useAtomValue } from 'jotai';
 
 export const useCreateFile = () => {
   const queryClient = useQueryClient();
+  const pathtostore = useAtomValue(vaultStore);
 
   return useMutation({
     mutationKey: ['createFile'],
     mutationFn: async (data: string) => {
-      const path = `C:/Users/Sowe/program/tauri-texteditor/tmp/${data}.md`;
+      const path = `${pathtostore}/${data}.md`;
       try {
         await invoke('create_file', { path: path });
       } catch (err) {

@@ -1,6 +1,6 @@
 import { load } from '@tauri-apps/plugin-store';
 
-type systemData = {
+export type systemData = {
   path: string;
   name: string;
 };
@@ -32,4 +32,19 @@ export const setVaults = async (data: systemData) => {
 
   console.log('existingVaults:', existingVaults);
   return existingVaults;
+};
+
+export const getCurrentVault = async (): Promise<string | null> => {
+  const store = await load('settings.json');
+  const currentVault = await store.get<string>('currentVault');
+  console.log(currentVault, 'Текущее хранилище установлено');
+
+  return currentVault || null;
+};
+
+export const setCurrentVault = async (data: string) => {
+  const store = await load('settings.json');
+  await store.set('currentVault', data);
+  await store.save();
+  console.log('Текущее хранилище установлено:', data);
 };
