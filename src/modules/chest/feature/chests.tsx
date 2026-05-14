@@ -11,7 +11,7 @@ type Props = {
 
 export const Chests: FC<Props> = ({ data }) => {
   return (
-    <div className='w-full h-[375px] flex p-[25px] flex-wrap border border-b-[#4A4A4A]'>
+    <div className='w-full h-[375px] flex p-[25px] flex-wrap border border-b-[#4A4A4A] gap-4'>
       {data &&
         data.map(({ name, path }) => (
           <div
