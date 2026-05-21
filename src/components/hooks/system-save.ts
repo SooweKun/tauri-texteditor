@@ -48,3 +48,35 @@ export const setCurrentVault = async (data: string) => {
   await store.save();
   console.log('Текущее хранилище установлено:', data);
 };
+
+export const getStarredFiles = async (): Promise<systemData[]> => {
+  const store = await load('settings.json');
+  const starred = await store.get<systemData[]>('starredFiles');
+  console.log(starred);
+
+  return starred || [];
+};
+
+export const setStarredFiles = async (data: systemData) => {
+  try {
+    const store = await load('settings.json');
+    const existingStarred = (await store.get<systemData[]>('starredFiles')) || [];
+    const isAlreadyExists = existingStarred.some((star) => star.path === data.path);
+
+    if (!isAlreadyExists) {
+      const updateStars = [...existingStarred, data];
+
+      await store.set('starredFiles', updateStars);
+      await store.save();
+
+      console.log('Файл добавлен в закладки:', updateStars);
+      return updateStars;
+    } else {
+      console.log('Файл уже в заметках');
+      return existingStarred;
+    }
+  } catch (error) {
+    console.error('Ошибка при сохранении в Store:', error);
+    throw error;
+  }
+};

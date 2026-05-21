@@ -3,13 +3,16 @@ import { addVaults } from '@/src/components/hooks/system-hooks';
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
+import { useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
+import { emit } from '@tauri-apps/api/event';
 import { open } from '@tauri-apps/plugin-dialog';
 import { useForm } from 'react-hook-form';
 
 export const UnboardForm = () => {
   const { register, handleSubmit, setValue } = useForm();
   const { mutate } = addVaults();
+  const queryClient = useQueryClient();
 
   const selectFolder = async () => {
     try {
@@ -33,7 +36,8 @@ export const UnboardForm = () => {
     mutate(data, {
       onSuccess: () => {
         console.log('запрос выполнен успешно');
-
+        queryClient.invalidateQueries({ queryKey: ['vaults'] });
+        emit('refresh-vaults').catch(console.error);
         invoke('finish_unboarding').catch((err) => console.error('Ошибка переключения окон:', err));
       },
       onError: (err) => {

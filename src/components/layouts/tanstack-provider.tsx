@@ -10,9 +10,8 @@ export const TanstackProvider = ({ children }: Readonly<{ children: ReactNode }>
       new QueryClient({
         defaultOptions: {
           queries: {
-            staleTime: 1 * 60 * 60 * 1000,
-            refetchOnWindowFocus: false,
-            retry: false,
+            staleTime: 0,
+            refetchOnWindowFocus: true,
           },
         },
       }),

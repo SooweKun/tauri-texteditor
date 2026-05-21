@@ -1,13 +1,10 @@
 import ChartIco from '@/src/assets/chart-ico.svg';
-import Close from '@/src/assets/close.svg';
 import DevtoolsIco from '@/src/assets/devtools-ico.svg';
 import NewFolderIco from '@/src/assets/new-folder-ico.svg';
 import { Button } from '@/src/components/ui/button';
-import { activeFile } from '@/src/modules/tauri-home/store/active-files';
-import { useAtom } from 'jotai';
 import Image from 'next/image';
 import { BackendReault, GetFiles } from '../hooks/getfiles';
-import { ReadFile } from '../hooks/read-file';
+import { FileAvatar } from './file-avatar';
 
 const IcoArr = [
   { ico: ChartIco, id: 1 },
@@ -16,13 +13,11 @@ const IcoArr = [
 ];
 
 export const SideBarFiles = () => {
-  const { mutate: mutateRead } = ReadFile();
-  const [file, setFile] = useAtom(activeFile);
   const { data } = GetFiles();
   console.log(data, 'active file');
 
   return (
-    <>
+    <div className='flex flex-col gap-2'>
       <div className='w-full flex items-center gap-2'>
         {IcoArr.map(({ ico, id }) => (
           <Button className='p-2 h-max bg-transparent hover:bg-[#D9D9D9]/30' key={id}>
@@ -31,36 +26,8 @@ export const SideBarFiles = () => {
         ))}
       </div>
       <div className='flex-1 flex flex-col gap-1 w-full'>
-        {data &&
-          data.map(({ name, path }: BackendReault) => (
-            <Button
-              className={`
-            w-full justify-between transition-colors bg-transparent text-white h-[30px] text-[16px]
-            hover:bg-[#D9D9D9]/30 
-            focus:bg-[#D9D9D9]/30
-            ${file === name ? 'bg-[#D9D9D9]/30' : ''}
-          `}
-              key={name}
-              onClick={() => {
-                setFile(name);
-                mutateRead(path);
-                console.log(path, 'path file');
-              }}>
-              {name}
-              {file === name && (
-                <Image
-                  src={Close}
-                  alt='nf'
-                  className='w-2 h-2'
-                  onClick={(e) => {
-                    setFile(null);
-                    e.stopPropagation();
-                  }}
-                />
-              )}
-            </Button>
-          ))}
+        {data && data.map(({ name, path }: BackendReault) => <FileAvatar key={path} name={name} path={path} />)}
       </div>
-    </>
+    </div>
   );
 };

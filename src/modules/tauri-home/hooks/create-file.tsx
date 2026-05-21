@@ -1,18 +1,17 @@
-import { vaultStore } from '@/src/components/store/vaults';
+import { useCurrentVault } from '@/src/components/hooks/system-hooks';
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
-import { useAtomValue } from 'jotai';
 
 export const useCreateFile = () => {
   const queryClient = useQueryClient();
-  const pathtostore = useAtomValue(vaultStore);
+  const { data: path } = useCurrentVault();
 
   return useMutation({
     mutationKey: ['createFile'],
     mutationFn: async (data: string) => {
-      const path = `${pathtostore}/${data}.md`;
+      const pathtostore = `${path}/${data}.md`;
       try {
-        await invoke('create_file', { path: path });
+        await invoke('create_file', { path: pathtostore });
       } catch (err) {
         console.log('ошибка', err);
         throw err;

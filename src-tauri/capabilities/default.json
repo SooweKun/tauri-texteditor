@@ -12,6 +12,8 @@
     "core:window:allow-toggle-maximize",
     "core:window:allow-create",
     "core:webview:allow-create-webview-window",
+    "core:event:allow-listen",
+    "core:event:default",
     "dialog:allow-open",
     "dialog:allow-save",
     "store:default"

@@ -1,11 +1,10 @@
 import { useVaults } from '@/src/components/hooks/system-hooks';
-import { vaultStore } from '@/src/components/store/vaults';
-import { useAtomValue } from 'jotai';
 import { FC, useState } from 'react';
 import { ProfileBtn } from '../../feature/profile-btn/profile-btn';
 import { SidebarControl } from '../../feature/sidebar-control';
 import { SidebarContent } from '../../feature/sidebar-files/sidebar-content';
 import { ValueBtn } from '../../feature/value-btn/value-btn';
+import { useTauriQuerySync } from '../../hooks/tauri-query-sync';
 
 type Props = {
   size: boolean;
@@ -14,9 +13,9 @@ type Props = {
 export const SideBar: FC<Props> = ({ size }) => {
   const { data } = useVaults();
   const [open, setOpen] = useState(false);
-  const path = useAtomValue(vaultStore);
+  useTauriQuerySync();
 
-  console.log(path, 'актуальное хранилище');
+  console.log(data, 'общие хранилища');
 
   const changeSet = () => {
     setOpen((prev) => !prev);
@@ -29,7 +28,7 @@ export const SideBar: FC<Props> = ({ size }) => {
       </div>
       {size && (
         <div className='flex flex-col gap-1 pb-1 relative w-[320px]'>
-          <SidebarContent data={data} open={open} />
+          <SidebarContent data={data} open={open} setOpen={setOpen} />
           <ValueBtn changeSet={changeSet} />
           <ProfileBtn />
         </div>

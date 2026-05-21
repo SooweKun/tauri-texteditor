@@ -1,14 +1,17 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
+import { useSetAtom } from 'jotai';
 import { useForm } from 'react-hook-form';
 import { ReadFile } from '../hooks/read-file';
 import { useSearch } from '../hooks/search-file';
+import { activeFile } from '../store/active-files';
 
 export const SideBarSearch = () => {
   const { register, handleSubmit } = useForm();
   const { mutate, data: back } = useSearch();
   const { mutate: mutateRead } = ReadFile();
+  const setActiveFile = useSetAtom(activeFile);
 
   console.log(back, 'serch data');
 
@@ -28,6 +31,7 @@ export const SideBarSearch = () => {
             className='w-full flex justify-start hover:bg-[#6b6b6b] cursor-pointer bg-transparent text-white text-[16px]'
             onClick={() => {
               mutateRead(back.path);
+              setActiveFile(back.name);
             }}>
             {back.name}
           </Button>
