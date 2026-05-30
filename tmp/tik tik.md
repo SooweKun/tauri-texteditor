@@ -1,2 +1,0 @@
-TIk TIK
-# Tik 

@@ -9,6 +9,7 @@ import CodeMirror from '@uiw/react-codemirror';
 import { livePreviewExtension } from 'cm6-livepreview-lib';
 import { useAtom } from 'jotai';
 import { BackendReadResault } from '../hooks/read-file';
+import { useRename } from '../hooks/rename-file';
 import { useSaveFile } from '../hooks/save-file';
 import { activeFile } from '../store/active-files';
 
@@ -76,22 +77,38 @@ const extensions = [
 ];
 
 export const Editor = () => {
+  const [file, setFile] = useAtom(activeFile); // убрать это отсюда нахуй
   const { data } = useQuery<BackendReadResault>({
-    queryKey: ['fileContent'],
+    queryKey: ['fileContent', file],
     queryFn: skipToken,
     enabled: false,
     staleTime: Infinity,
   });
-  const [file] = useAtom(activeFile); // убрать это отсюда нахуй
-  const { mutate } = useSaveFile();
 
-  console.log(data, 'content');
+  const { mutate: renameFile } = useRename();
+  const { mutate } = useSaveFile();
+  console.log(file, 'file');
 
   return (
     <div className='size-full flex justify-start items-center flex-col pt-[15px]'>
       <div className={`max-w-[900px] w-full ${!file ? 'hidden' : 'block'}`}>
         <div className='w-full flex justify-start'>
-          <h1 className='text-[20px] font-bold text-[#C09FE9]'>{data && data.name}</h1>
+          {/* <h1 className='text-[20px] font-bold text-[#C09FE9]'>{data && data.name}</h1> */}
+          <input
+            className='bg-[#1a1a1a] border-none text-[20px] font-bold text-[#C09FE9] w-max select-none'
+            defaultValue={data && data.name}
+            key={file}
+            onBlur={(e) => {
+              const newName = e.target.value;
+              // Запускаем только если имя реально изменили
+              if (newName && newName !== data?.name) {
+                renameFile(
+                  { oldPath: data!.path, newName, fileKey: file },
+                  { onSuccess: () => setFile(newName) }, // Обновляем атом после успеха
+                );
+              }
+            }}
+          />
         </div>
         <CodeMirror
           value={data?.content || ''}

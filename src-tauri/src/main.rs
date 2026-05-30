@@ -4,6 +4,7 @@ use std::fs::{self, File};
 use std::path::PathBuf;
 use tauri_plugin_store::StoreExt;
 use tauri::Manager;
+use std::path::Path;
 
 #[derive(Serialize, Debug)]
 struct FileInfo {
@@ -77,17 +78,50 @@ fn read_file(path: PathBuf) -> Result<FileData, String> {
 }
 
 #[tauri::command]
+fn rename_file(old_path: String, new_name: String) -> Result<String, String> {
+    let old_path = Path::new(&old_path);
+
+    let parent = old_path.parent().ok_or("Не удалось найти директорию файла")?;
+    let new_path = parent.join(new_name);
+
+    fs::rename(&old_path, &new_path)
+        .map_err(|e| format!("Ошибка при переименовании, {}", e))?; // не забывать ставить "?" это сука завершает выполнение кода и возвращает нас в начало что бы ошибок дальше не было 
+
+    Ok(new_path.to_string_lossy().into_owned())
+}
+
+#[tauri::command]
 fn save_file(content: String, path: String) -> Result<(), String> {
     fs::write(PathBuf::from(path), content).map_err(|e| e.to_string())
 }
 
 #[tauri::command]
-fn create_file(path: String) -> Result<(), String> {
+fn create_file(path: String) -> Result<String, String> {
     // File::create_new создает новый файл и возвращает ошибку, если он уже существует.
     // это атомарная операция, что предотвращает гонку состояний (race conditions).
-    File::create_new(PathBuf::from(path))
-        .map(|_| ()) // в случае успеха отбрасываем результат (обработчик файла) и возвращаем пустой Ok
-        .map_err(|e| e.to_string()) // в случае ошибки превращаем ее в строку для фронтенда
+
+    let base_name = "Новый Документ";
+    let mut index = 0;
+    let dir_path = PathBuf::from(path);
+
+    loop {
+        let file_name = format!("{} {}", base_name, index);
+        let full_path = dir_path.join(&file_name);
+
+        match File::create_new(&full_path) {
+            Ok(_) => return Ok(file_name),
+            Err(e) => {
+                if e.kind() == std::io::ErrorKind::AlreadyExists
+                 { // мы создали loop и поскольку в расте его нужно через match как промис обрабатывать мы на обработчик ошибок навешали свои условия вытянули конкретно ошибку о том чт офайл уже существует и переделываем его индес при ошибке 
+                    index += 1;
+                    continue;
+                } else {
+                    return Err(format!("Ошибка при создании файла: {}", e))
+                }
+            }
+        }
+    }
+
 }
 
 #[tauri::command]
@@ -147,7 +181,8 @@ fn main() {
             get_files,
             read_file,
             search_file,
-            finish_unboarding
+            finish_unboarding,
+            rename_file
         ])
         .setup(|app| {
             let data = app.store("settings.json");

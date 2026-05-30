@@ -22,6 +22,7 @@ type Props = {
 };
 
 export const FileAvatar: FC<Props> = ({ name, path }) => {
+  // потом сделать переиспользуемым компонентом
   const { mutate: mutateRead } = ReadFile();
   const { mutate: mutateDelete } = DeleteFile();
   const { mutate: mutateStarred } = addStarredFiles();

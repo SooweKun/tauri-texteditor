@@ -23,7 +23,7 @@ export const ReadFile = () => {
     },
     onSuccess: (data) => {
       console.log(data);
-      queryClient.setQueryData<BackendReadResault>(['fileContent'], data);
+      queryClient.setQueryData<BackendReadResault>(['fileContent', data.name], data);
     },
   });
 };

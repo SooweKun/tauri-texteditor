@@ -8,8 +8,8 @@ export const useCreateFile = () => {
 
   return useMutation({
     mutationKey: ['createFile'],
-    mutationFn: async (data: string) => {
-      const pathtostore = `${path}/${data}.md`;
+    mutationFn: async () => {
+      const pathtostore = `${path}`;
       try {
         await invoke('create_file', { path: pathtostore });
       } catch (err) {
@@ -19,6 +19,9 @@ export const useCreateFile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['files'] });
+    },
+    onError: (err) => {
+      console.log(err, 'ошибка создания файла ');
     },
   });
 };
