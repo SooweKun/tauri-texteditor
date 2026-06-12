@@ -7,21 +7,21 @@ import {
   ContextMenuTrigger,
 } from '@/src/components/ui/context-menu';
 
-export function Avatar() {
+export function Banner() {
   return (
     <ContextMenu>
-      <ContextMenuTrigger className='group w-[125px] h-[125px] bg-[#272727] rounded-[5px] cursor-pointer relative flex justify-center items-center'>
-        <p className='text-white text-center opacity-0 group-hover:opacity-100'>right click to change</p>
+      <ContextMenuTrigger className='group w-full h-[200px] rounded-[10px] bg-a flex justify-center items-center cursor-pointer bg-[#1a1a1a]'>
+        <p className='text-white text-center opacity-0 group-hover:opacity-100 text-2xl'>right click to change</p>
       </ContextMenuTrigger>
       <ContextMenuContent className='w-48'>
         <ContextMenuGroup>
           <ContextMenuItem>
             <p className='text-red-400'>Back</p>
-            <ContextMenuShortcut>⌘[</ContextMenuShortcut>
+            <ContextMenuShortcut>⌘</ContextMenuShortcut>
           </ContextMenuItem>
           <ContextMenuItem>
-            New avatar
-            <ContextMenuShortcut>⌘]</ContextMenuShortcut>
+            New banner
+            <ContextMenuShortcut>⌘</ContextMenuShortcut>
           </ContextMenuItem>
         </ContextMenuGroup>
       </ContextMenuContent>

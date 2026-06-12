@@ -1,6 +1,7 @@
 'use client';
 /* eslint-disable react-hooks/rules-of-hooks */
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query';
+import { toast } from 'sonner';
 import { getCurrentVault, getStarredFiles, getVaults, setCurrentVault, setStarredFiles, setVaults } from './system-save';
 
 export const useVaults = () => {
@@ -18,6 +19,11 @@ export const addVaults = () => {
     mutationFn: setVaults,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['vaults'] });
+    },
+    onError: (err) => {
+      toast.error('ошибка добавления хранилища', {
+        description: err.message,
+      });
     },
   });
 };
@@ -37,6 +43,11 @@ export const addCurrentVault = () => {
     mutationFn: setCurrentVault,
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['currentVault'] });
+    },
+    onError: (err) => {
+      toast.error('ошибка добавления нынешнего хранилища', {
+        description: err.message,
+      });
     },
   });
 };
@@ -59,7 +70,9 @@ export const addStarredFiles = () => {
       console.log('log in starred hook');
     },
     onError: (err) => {
-      console.log(err, 'ошибка добавления заметок');
+      toast.error('ошибка добавления заметок', {
+        description: err.message,
+      });
     },
   });
 };

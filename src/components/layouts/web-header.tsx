@@ -8,7 +8,7 @@ export const WebHeader = () => {
       <div className='w-max px-2 flex gap-0 items-end'>
         <p className='text-[16px] text-white/80 tracking-[0.3em] font-light uppercase'>Tauri</p>
       </div>
-      <div className='w-[600px] p-2 flex gap-6 text-white/80 tracking-[0.3em] font-light uppercase justify-center ml-[80px]'>
+      {/* <div className='w-[600px] p-2 flex gap-6 text-white/80 tracking-[0.3em] font-light uppercase justify-center ml-[80px]'>
         <Link href='' className='hover:text-white'>
           profile
         </Link>
@@ -21,7 +21,7 @@ export const WebHeader = () => {
         <Link href='' className='hover:text-white'>
           dock
         </Link>
-      </div>
+      </div> */}
       <div className='flex gap-[8px] text-white items-center'>
         {isRegistered ? (
           // <HeaderAvatar />

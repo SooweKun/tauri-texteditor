@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
+import { toast } from 'sonner';
 
 export const DeleteFile = () => {
   const queryClient = useQueryClient();
@@ -17,6 +18,11 @@ export const DeleteFile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['files'] });
+    },
+    onError: (err) => {
+      toast.error('ошибка удаления файла', {
+        description: err.message,
+      });
     },
   });
 };

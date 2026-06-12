@@ -1,6 +1,7 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
+import { toast } from 'sonner';
 
 export const useRename = () => {
   const queryClient = useQueryClient();
@@ -29,6 +30,11 @@ export const useRename = () => {
 
       // инвалидация
       queryClient.invalidateQueries({ queryKey: ['files'] });
+    },
+    onError: (err) => {
+      toast.error('ошибка ренейма файла', {
+        description: err.message,
+      });
     },
   });
 };

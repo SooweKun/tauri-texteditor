@@ -90,7 +90,7 @@ export const Editor = () => {
   console.log(file, 'file');
 
   return (
-    <div className='size-full flex justify-start items-center flex-col pt-[15px]'>
+    <div className='size-full flex justify-start items-center flex-col pt-[15px] overflow-y-auto'>
       <div className={`max-w-[900px] w-full ${!file ? 'hidden' : 'block'}`}>
         <div className='w-full flex justify-start'>
           {/* <h1 className='text-[20px] font-bold text-[#C09FE9]'>{data && data.name}</h1> */}

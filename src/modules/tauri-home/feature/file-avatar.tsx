@@ -72,7 +72,11 @@ export const FileAvatar: FC<Props> = ({ name, path }) => {
             Starred
             <ContextMenuShortcut>⌘]</ContextMenuShortcut>
           </ContextMenuItem>
-          <ContextMenuItem className='text-red-400' onClick={() => mutateDelete(path)}>
+          <ContextMenuItem
+            className='text-red-400'
+            onClick={() => {
+              mutateDelete(path);
+            }}>
             Delete
             <ContextMenuShortcut>⌘R</ContextMenuShortcut>
           </ContextMenuItem>

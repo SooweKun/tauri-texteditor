@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
+import { toast } from 'sonner';
 
 type Props = {
   path: string | undefined;
@@ -20,6 +21,11 @@ export const useSaveFile = () => {
     },
     onSuccess: () => {
       queryClient.invalidateQueries({ queryKey: ['files'] });
+    },
+    onError: (err) => {
+      toast.error('ошибка сохранения файла', {
+        description: err.message,
+      });
     },
   });
 };

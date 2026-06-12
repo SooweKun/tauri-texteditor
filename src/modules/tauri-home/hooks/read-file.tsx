@@ -1,5 +1,6 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query';
 import { invoke } from '@tauri-apps/api/core';
+import { toast } from 'sonner';
 
 export type BackendReadResault = {
   name: string;
@@ -24,6 +25,11 @@ export const ReadFile = () => {
     onSuccess: (data) => {
       console.log(data);
       queryClient.setQueryData<BackendReadResault>(['fileContent', data.name], data);
+    },
+    onError: (err) => {
+      toast.error('ошибка чтения файла', {
+        description: err.name,
+      });
     },
   });
 };

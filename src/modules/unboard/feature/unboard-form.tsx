@@ -1,6 +1,6 @@
 'use client';
-import { addVaults } from '@/src/components/hooks/system-hooks';
 /* eslint-disable @typescript-eslint/no-explicit-any */
+import { addCurrentVault, addVaults } from '@/src/components/hooks/system-hooks';
 import { Button } from '@/src/components/ui/button';
 import { Input } from '@/src/components/ui/input';
 import { useQueryClient } from '@tanstack/react-query';
@@ -12,6 +12,7 @@ import { useForm } from 'react-hook-form';
 export const UnboardForm = () => {
   const { register, handleSubmit, setValue } = useForm();
   const { mutate } = addVaults();
+  const { mutateAsync: setCurrent } = addCurrentVault();
   const queryClient = useQueryClient();
 
   const selectFolder = async () => {
@@ -34,11 +35,18 @@ export const UnboardForm = () => {
 
   const Submit = (data: any) => {
     mutate(data, {
-      onSuccess: () => {
-        console.log('запрос выполнен успешно');
-        queryClient.invalidateQueries({ queryKey: ['vaults'] });
-        emit('refresh-vaults').catch(console.error);
-        invoke('finish_unboarding').catch((err) => console.error('Ошибка переключения окон:', err));
+      onSuccess: async () => {
+        try {
+          console.log('Запрос выполнен успешно');
+          await setCurrent(data.path);
+
+          queryClient.invalidateQueries({ queryKey: ['vaults'] });
+
+          await emit('refresh-vaults');
+          await invoke('finish_unboarding');
+        } catch (err) {
+          console.error('Ошибка в onSuccess:', err);
+        }
       },
       onError: (err) => {
         console.log(err, 'ошибка запроса');

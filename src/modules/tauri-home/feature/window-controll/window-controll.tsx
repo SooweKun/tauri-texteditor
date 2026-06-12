@@ -9,7 +9,7 @@ export const WindowControll = () => {
   const appWindow = getCurrentWindow();
 
   return (
-    <div className='w-max flex gap-2 items-center'>
+    <div className='w-max flex gap-2 items-center shrink-0'>
       <Button variant='ghost' onClick={() => appWindow.minimize()}>
         <Image src={rollDown} alt='nf' />
       </Button>

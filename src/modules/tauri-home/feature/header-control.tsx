@@ -16,7 +16,7 @@ const IcoArr = [
 export const HeaderControll = () => {
   const [_, setContent] = useAtom(contentId);
   return (
-    <>
+    <div className='flex shrink-0'>
       {IcoArr.map(({ ico, id, desc }) => (
         <Tooltip key={id}>
           <TooltipTrigger asChild>
@@ -27,6 +27,6 @@ export const HeaderControll = () => {
           <TooltipContent side='bottom'>{desc}</TooltipContent>
         </Tooltip>
       ))}
-    </>
+    </div>
   );
 };

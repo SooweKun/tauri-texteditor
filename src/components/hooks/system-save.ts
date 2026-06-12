@@ -52,8 +52,6 @@ export const setCurrentVault = async (data: string) => {
 export const getStarredFiles = async (): Promise<systemData[]> => {
   const store = await load('settings.json');
   const starred = await store.get<systemData[]>('starredFiles');
-  console.log(starred);
-
   return starred || [];
 };
 
@@ -61,20 +59,24 @@ export const setStarredFiles = async (data: systemData) => {
   try {
     const store = await load('settings.json');
     const existingStarred = (await store.get<systemData[]>('starredFiles')) || [];
-    const isAlreadyExists = existingStarred.some((star) => star.path === data.path);
 
-    if (!isAlreadyExists) {
-      const updateStars = [...existingStarred, data];
+    const isAlreadyStarred = existingStarred.some((star) => star.path === data.path);
 
-      await store.set('starredFiles', updateStars);
-      await store.save();
+    let updateStars: systemData[];
 
-      console.log('Файл добавлен в закладки:', updateStars);
-      return updateStars;
+    if (isAlreadyStarred) {
+      updateStars = existingStarred.filter((star) => star.path !== data.path);
+      console.log('Файл удален из избранного:', data.path);
     } else {
-      console.log('Файл уже в заметках');
-      return existingStarred;
+      const newStar = { ...data, isStarred: true };
+      updateStars = [...existingStarred, newStar];
+      console.log('Файл добавлен в избранное:', data.path);
     }
+
+    await store.set('starredFiles', updateStars);
+    await store.save();
+
+    return updateStars;
   } catch (error) {
     console.error('Ошибка при сохранении в Store:', error);
     throw error;

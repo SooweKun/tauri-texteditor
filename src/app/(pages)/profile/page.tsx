@@ -1,9 +1,12 @@
+import { WebHeaderLayout } from '@/src/components/layouts/web-header-layout';
 import { ProfileModule } from '@/src/modules/profile/module';
 
 export default function ProfilePage() {
   return (
-    <div className='w-full h-screen bg-black flex justify-center'>
-      <ProfileModule />
-    </div>
+    <WebHeaderLayout>
+      <div className='w-full h-screen bg-black flex justify-center items-center'>
+        <ProfileModule />
+      </div>
+    </WebHeaderLayout>
   );
 }

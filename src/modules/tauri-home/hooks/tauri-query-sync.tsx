@@ -10,6 +10,7 @@ export const useTauriQuerySync = () => {
     const unlisten = listen('refresh-vaults', () => {
       console.log('Событие получено: обновляю vaults в главном окне');
       queryClient.invalidateQueries({ queryKey: ['vaults'] });
+      queryClient.invalidateQueries({ queryKey: ['currentVault'] });
     });
 
     // Обязательно отписываемся при размонтировании

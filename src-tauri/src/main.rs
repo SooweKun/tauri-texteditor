@@ -1,10 +1,10 @@
 #![cfg_attr(not(debug_assertions), windows_subsystem = "windows")]
 use serde::Serialize;
 use std::fs::{self, File};
-use std::path::PathBuf;
-use tauri_plugin_store::StoreExt;
-use tauri::Manager;
 use std::path::Path;
+use std::path::PathBuf;
+use tauri::Manager;
+use tauri_plugin_store::StoreExt;
 
 #[derive(Serialize, Debug)]
 struct FileInfo {
@@ -31,32 +31,74 @@ fn open_file(path: String) {
     println!("Data file: {:?}", data_file);
 }
 
+// #[tauri::command]
+// fn search_file(path: PathBuf, name: String) -> Result<FileInfo, String> {
+//     let target_name = name.to_lowercase();
+
+//     let mut file_list = std::fs::read_dir(&path)
+//         .map_err(|e| e.to_string())?
+//         .filter_map(|entry| {
+//             let e = entry.ok()?;
+//             let path = e.path();
+
+//             let stem = path.file_stem()?.to_str()?.to_lowercase();
+//             let full_name = path.file_name()?.to_str()?.to_lowercase();
+
+//             if stem == target_name || full_name == target_name {
+//                 Some(FileInfo {
+//                     path: path.to_str()?.to_string(),
+//                     name: stem.to_string(),
+//                 })
+//             } else {
+//                 None
+//             }
+//         });
+
+//     file_list
+//         .next()
+//         .ok_or_else(|| format!("File '{}' not found in {:?}", name, path))
+// }
+
 #[tauri::command]
-fn search_file(path: PathBuf, name: String) -> Result<FileInfo, String> {
-    let target_name = name.to_lowercase();
+fn search_file(path: std::path::PathBuf, name: String) -> Result<FileInfo, String> {
+    let target_name = name.trim().to_lowercase();
 
     let mut file_list = std::fs::read_dir(&path)
-        .map_err(|e| e.to_string())?
+        .map_err(|e| format!("Ошибка чтения директории {:?}: {}", path, e))?
         .filter_map(|entry| {
             let e = entry.ok()?;
             let path = e.path();
 
-            let stem = path.file_stem()?.to_str()?.to_lowercase();
-            let full_name = path.file_name()?.to_str()?.to_lowercase();
+            let original_stem = path.file_stem()?.to_str()?;
+            let original_name = path.file_name()?.to_str()?;
+
+            let stem = original_stem.to_lowercase();
+            let full_name = original_name.to_lowercase();
+
+            println!(
+                "Сравниваем с файлом на диске -> stem: '{}', full: '{}'",
+                stem, full_name
+            );
 
             if stem == target_name || full_name == target_name {
                 Some(FileInfo {
                     path: path.to_str()?.to_string(),
-                    name: stem.to_string(),
+                    name: original_stem.to_string(),
                 })
             } else {
                 None
             }
         });
 
-    file_list
-        .next()
-        .ok_or_else(|| format!("File '{}' not found in {:?}", name, path))
+    let result = file_list.next();
+
+    if result.is_none() {
+        println!("Файл не найден!");
+    } else {
+        println!("Файл успешно найден!");
+    }
+
+    result.ok_or_else(|| format!("File '{}' not found in {:?}", name, path))
 }
 
 #[tauri::command]
@@ -81,11 +123,12 @@ fn read_file(path: PathBuf) -> Result<FileData, String> {
 fn rename_file(old_path: String, new_name: String) -> Result<String, String> {
     let old_path = Path::new(&old_path);
 
-    let parent = old_path.parent().ok_or("Не удалось найти директорию файла")?;
+    let parent = old_path
+        .parent()
+        .ok_or("Не удалось найти директорию файла")?;
     let new_path = parent.join(new_name);
 
-    fs::rename(&old_path, &new_path)
-        .map_err(|e| format!("Ошибка при переименовании, {}", e))?; // не забывать ставить "?" это сука завершает выполнение кода и возвращает нас в начало что бы ошибок дальше не было 
+    fs::rename(&old_path, &new_path).map_err(|e| format!("Ошибка при переименовании, {}", e))?; // не забывать ставить "?" это сука завершает выполнение кода и возвращает нас в начало что бы ошибок дальше не было
 
     Ok(new_path.to_string_lossy().into_owned())
 }
@@ -111,17 +154,16 @@ fn create_file(path: String) -> Result<String, String> {
         match File::create_new(&full_path) {
             Ok(_) => return Ok(file_name),
             Err(e) => {
-                if e.kind() == std::io::ErrorKind::AlreadyExists
-                 { // мы создали loop и поскольку в расте его нужно через match как промис обрабатывать мы на обработчик ошибок навешали свои условия вытянули конкретно ошибку о том чт офайл уже существует и переделываем его индес при ошибке 
+                if e.kind() == std::io::ErrorKind::AlreadyExists {
+                    // мы создали loop и поскольку в расте его нужно через match как промис обрабатывать мы на обработчик ошибок навешали свои условия вытянули конкретно ошибку о том чт офайл уже существует и переделываем его индес при ошибке
                     index += 1;
                     continue;
                 } else {
-                    return Err(format!("Ошибка при создании файла: {}", e))
+                    return Err(format!("Ошибка при создании файла: {}", e));
                 }
             }
         }
     }
-
 }
 
 #[tauri::command]
@@ -161,7 +203,7 @@ fn get_files(path: String) -> Result<Vec<FileInfo>, String> {
 fn finish_unboarding(app: tauri::AppHandle) {
     if let Some(main_window) = app.get_webview_window("main") {
         main_window.show().unwrap();
-        main_window.set_focus().unwrap(); 
+        main_window.set_focus().unwrap();
     }
 
     if let Some(unboard_window) = app.get_webview_window("unboard") {
@@ -171,6 +213,7 @@ fn finish_unboarding(app: tauri::AppHandle) {
 
 fn main() {
     tauri::Builder::default()
+        .plugin(tauri_plugin_opener::init())
         .plugin(tauri_plugin_dialog::init())
         .plugin(tauri_plugin_store::Builder::new().build())
         .invoke_handler(tauri::generate_handler![
@@ -186,8 +229,12 @@ fn main() {
         ])
         .setup(|app| {
             let data = app.store("settings.json");
-            let main_window = app.get_webview_window("main").expect("Window 'main' not found");
-            let unboard_window = app.get_webview_window("unboard").expect("Window 'unboard' not found");
+            let main_window = app
+                .get_webview_window("main")
+                .expect("Window 'main' not found");
+            let unboard_window = app
+                .get_webview_window("unboard")
+                .expect("Window 'unboard' not found");
 
             if let Some(item) = data?.get("vaults") {
                 let has_item = item.as_array().map(|arr| arr.is_empty()).unwrap_or(true); // как я понял нужно обязательно проверять массив ли это :/
@@ -198,9 +245,8 @@ fn main() {
                 } else {
                     main_window.show()?;
                 }
-            }
-            else{
-               unboard_window.show()?;
+            } else {
+                unboard_window.show()?;
             }
             Ok(())
         })

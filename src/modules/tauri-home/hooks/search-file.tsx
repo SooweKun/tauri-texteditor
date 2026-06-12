@@ -14,5 +14,10 @@ export const useSearch = () => {
 
       return data;
     },
+    // onError: (err) => {
+    //   toast.error('ошибка поиска файла', {
+    //     description: err.message,
+    //   });
+    // },
   });
 };

@@ -13,6 +13,7 @@ import type { BackendReault } from '@/src/modules/tauri-home/hooks/getfiles';
 import { GetFiles } from '@/src/modules/tauri-home/hooks/getfiles';
 import { useAtom } from 'jotai';
 import Image from 'next/image';
+import { useRef } from 'react';
 import { DeleteFile } from '../../hooks/delete-file';
 import { ReadFile } from '../../hooks/read-file';
 import { activeFile } from '../../store/active-files';
@@ -25,20 +26,28 @@ export const ActiveFile = () => {
   console.log(data, 'active file');
   const [file, setFile] = useAtom(activeFile);
 
-  // потом сделать переиспользуемым саму контекстую менюшку
+  const containerRef = useRef<HTMLDivElement>(null);
+
+  const handleWheel = (e: React.WheelEvent<HTMLDivElement>) => {
+    if (containerRef.current) {
+      containerRef.current.scrollLeft += e.deltaY;
+    }
+  };
 
   return (
     <div
-      className='max-w-[1300px] flex items-end gap-1.5 overflow-x-auto'
+      ref={containerRef} // Передаем реф
+      onWheel={handleWheel}
+      className='min-w-0 flex flex-1 items-end gap-1.5 overflow-x-auto'
       data-tauri-drag-region
       style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}>
       {data &&
         data.map(({ name, path }: BackendReault) => (
           <ContextMenu key={name}>
-            <ContextMenuTrigger>
+            <ContextMenuTrigger asChild>
               <Button
                 variant='ghost'
-                className={`${file === name ? 'bg-[#262626]' : ''} flex gap-6`}
+                className={`${file === name ? 'bg-[#262626]' : ''} flex gap-6 shrink-0`}
                 onClick={() => {
                   mutateRead(path);
                   setFile(name);

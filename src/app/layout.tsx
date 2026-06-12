@@ -1,3 +1,4 @@
+import { Toaster } from 'sonner';
 import { TanstackProvider } from '../components/layouts/tanstack-provider';
 import { ThemeProvider } from '../components/providers/theme-provider';
 import './globals.css';
@@ -13,6 +14,16 @@ export default function RootLayout({
         <TanstackProvider>
           <ThemeProvider attribute='class' defaultTheme='dark' enableSystem disableTransitionOnChange>
             {children}
+            <Toaster
+              toastOptions={{
+                style: {
+                  background: 'black', // Серый цвет
+                  color: 'white',
+                  borderRadius: '4px',
+                  borderColor: '#404040',
+                },
+              }}
+            />
           </ThemeProvider>
         </TanstackProvider>
       </body>
