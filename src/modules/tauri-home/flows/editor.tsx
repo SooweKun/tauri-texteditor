@@ -8,6 +8,7 @@ import { skipToken, useQuery } from '@tanstack/react-query';
 import CodeMirror from '@uiw/react-codemirror';
 import { livePreviewExtension } from 'cm6-livepreview-lib';
 import { useAtom } from 'jotai';
+import { images } from '../extansions/images';
 import { BackendReadResault } from '../hooks/read-file';
 import { useRename } from '../hooks/rename-file';
 import { useSaveFile } from '../hooks/save-file';
@@ -63,6 +64,7 @@ const extensions = [
   drawSelection(), // Красивое выделение
   syntaxHighlighting(defaultHighlightStyle, { fallback: true }),
   markdown(), // Поддержка Markdown
+  images(),
   livePreviewExtension,
   bracketMatching(), // Подсветка парных скобок
   indentOnInput(), // Авто-отступ при вводе
@@ -100,11 +102,11 @@ export const Editor = () => {
             key={file}
             onBlur={(e) => {
               const newName = e.target.value;
-              // Запускаем только если имя реально изменили
+              // запускаем только если имя реально изменили
               if (newName && newName !== data?.name) {
                 renameFile(
                   { oldPath: data!.path, newName, fileKey: file },
-                  { onSuccess: () => setFile(newName) }, // Обновляем атом после успеха
+                  { onSuccess: () => setFile(newName) }, // обновляем атом после успеха
                 );
               }
             }}

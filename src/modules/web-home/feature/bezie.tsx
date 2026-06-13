@@ -42,9 +42,12 @@ export const PurpleColumnsHero: React.FC = () => {
           От личных заметок и ведения дневника до создания баз знаний и управления проектами
         </p>
         <div className='flex flex-col sm:flex-row items-center gap-4'>
-          <button className='h-11 px-6 rounded-full bg-white text-black font-semibold text-sm hover:bg-zinc-100 active:scale-[0.98] transition-all flex items-center gap-2 shadow-lg cursor-pointer'>
+          <a
+            href='/apk-file/app.exe'
+            download='arima.zip'
+            className='h-11 px-6 rounded-full bg-white text-black font-semibold text-sm hover:bg-zinc-100 active:scale-[0.98] transition-all flex items-center gap-2 shadow-lg cursor-pointer'>
             Скачать
-          </button>
+          </a>
         </div>
       </div>
     </section>

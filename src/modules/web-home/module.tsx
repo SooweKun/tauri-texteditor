@@ -261,13 +261,16 @@ export const WebHomeModule = () => {
             <p className='text-4xl text-gray-500 '>
               Бесплатное и гибкое приложение <br /> для ваших личных мыслей.
             </p>
-            <button className='relative overflow-hidden group w-[280px] h-[60px] text-xl text-white bg-[#7C3AED] rounded-[6px] cursor-pointer mt-[20px] transition-transform active:scale-[0.98]'>
+            <a
+              href='/apk-file/app.exe'
+              download='arima.zip'
+              className='relative overflow-hidden flex items-center justify-center group w-[280px] h-[60px] text-xl text-white bg-[#7C3AED] rounded-[6px] cursor-pointer mt-[20px] transition-transform active:scale-[0.98]'>
               <span
                 className='absolute inset-y-0 -left-[100%] w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-[25deg] transition-all duration-1000 ease-out group-hover:left-[100%]'
                 aria-hidden='true'
               />
               <span className='relative z-10'>Скачать</span>
-            </button>
+            </a>
           </div>
           <div className='h-[700px] mt-[80px] bg-black flex flex-col items-center p-8'>
             <div className='grid grid-cols-1 md:grid-cols-3 gap-8 w-full max-w-5xl justify-items-center h-max'>
