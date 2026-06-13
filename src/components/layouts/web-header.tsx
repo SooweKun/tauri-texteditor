@@ -4,7 +4,7 @@ export const WebHeader = () => {
   const isRegistered = false;
 
   return (
-    <div className='w-full h-[65px] px-[85px] flex items-center justify-between'>
+    <div className='w-full h-[65px] py-[10px] px-[85px] flex items-center justify-between'>
       <div className='w-max px-2 flex gap-0 items-end'>
         <p className='text-[16px] text-white/80 tracking-[0.3em] font-light uppercase'>Tauri</p>
       </div>

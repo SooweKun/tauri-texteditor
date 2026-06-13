@@ -263,7 +263,7 @@ export const WebHomeModule = () => {
             </p>
             <a
               href='/apk-file/app.exe'
-              download='arima.zip'
+              download='arima.exe'
               className='relative overflow-hidden flex items-center justify-center group w-[280px] h-[60px] text-xl text-white bg-[#7C3AED] rounded-[6px] cursor-pointer mt-[20px] transition-transform active:scale-[0.98]'>
               <span
                 className='absolute inset-y-0 -left-[100%] w-1/2 bg-gradient-to-r from-transparent via-white/30 to-transparent -skew-x-[25deg] transition-all duration-1000 ease-out group-hover:left-[100%]'

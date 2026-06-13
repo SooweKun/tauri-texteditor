@@ -20,7 +20,6 @@ const myHighlightStyle = HighlightStyle.define([
   { tag: t.heading1, color: '#C09FE9', fontWeight: 'bold', fontSize: '18px' }, // Заголовок
   { tag: t.emphasis, color: '#c678dd', fontStyle: 'italic' }, // Курсив
   { tag: t.strong, color: '#ffffff', fontWeight: 'bold' }, // Жирный
-
   { tag: t.processingInstruction, color: '#C09FE9' }, // спец символы
 ]);
 

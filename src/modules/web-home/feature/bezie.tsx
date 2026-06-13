@@ -44,7 +44,7 @@ export const PurpleColumnsHero: React.FC = () => {
         <div className='flex flex-col sm:flex-row items-center gap-4'>
           <a
             href='/apk-file/app.exe'
-            download='arima.zip'
+            download='arima.exe'
             className='h-11 px-6 rounded-full bg-white text-black font-semibold text-sm hover:bg-zinc-100 active:scale-[0.98] transition-all flex items-center gap-2 shadow-lg cursor-pointer'>
             Скачать
           </a>
