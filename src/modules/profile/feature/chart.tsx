@@ -6,12 +6,12 @@ import { ChartConfig, ChartContainer, ChartTooltip, ChartTooltipContent } from '
 import { Card, CardContent, CardFooter } from '@/src/components/ui/card';
 
 const chartData = [
-  { month: 'January', desktop: 186 },
-  { month: 'February', desktop: 305 },
-  { month: 'March', desktop: 237 },
-  { month: 'April', desktop: 273 },
-  { month: 'May', desktop: 209 },
-  { month: 'June', desktop: 214 },
+  { month: 'Январь', desktop: 186 },
+  { month: 'Февраль', desktop: 305 },
+  { month: 'Март', desktop: 237 },
+  { month: 'Апрель', desktop: 273 },
+  { month: 'Май', desktop: 209 },
+  { month: 'Июнь', desktop: 214 },
 ];
 
 const chartConfig = {
@@ -43,7 +43,7 @@ export function Chart() {
         </ChartContainer>
       </CardContent>
       <CardFooter className='w-full flex flex-col items-center'>
-        <h1 className='text-sm'>app activity statistics</h1>
+        <h1 className='text-sm'>статистика использования</h1>
         <p className='text-xs underline underline-offset-1 text-[#AE0389] cursor-pointer'>see more.</p>
       </CardFooter>
     </Card>

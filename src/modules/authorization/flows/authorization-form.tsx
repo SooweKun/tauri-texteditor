@@ -5,6 +5,8 @@ import { Button } from '@/src/components/ui/button';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useForm } from 'react-hook-form';
 import { z } from 'zod/v4';
+import { useAuthFlowId } from '../hooks/auth-form-id';
+import { useAuth } from '../hooks/use-auth';
 
 type InputsType = {
   label: string;
@@ -17,14 +19,14 @@ type InputsType = {
 
 const Inputs: InputsType[] = [
   {
-    label: 'Email',
-    placeholder: 'Email',
+    label: 'Логин или Почта',
+    placeholder: 'Введите логин или почту',
     id: 1,
-    type: 'email',
+    type: 'identifier',
   },
   {
-    label: 'Password',
-    placeholder: 'Password',
+    label: 'Пароль',
+    placeholder: 'Введите пароль',
     id: 2,
     prefix: 'forgot password ?',
     type: 'password',
@@ -33,14 +35,14 @@ const Inputs: InputsType[] = [
 ];
 
 const AuthFormShema = z.object({
-  email: z.email({ pattern: z.regexes.html5Email, message: 'Некорректный email' }),
+  identifier: z.string(),
   password: z
     .string()
     .min(8, { message: 'Пароль должен содержать минимум 8 символов' })
     .regex(/[0-9]/, { message: 'Пароль должен содержать хотя бы одну цифру' }),
 });
 
-type AuthFormType = z.infer<typeof AuthFormShema>;
+export type AuthFormType = z.infer<typeof AuthFormShema>;
 
 export const AuthForm = () => {
   const {
@@ -51,13 +53,22 @@ export const AuthForm = () => {
     resolver: zodResolver(AuthFormShema),
     mode: 'onSubmit',
     defaultValues: {
-      email: '',
+      identifier: '',
       password: '',
     },
   });
 
+  const { data: authFlowId, isLoading } = useAuthFlowId();
+  const { mutate } = useAuth();
+
   const onSubmit = (data: any) => {
-    console.log(data);
+    const userData = {
+      ...data,
+      flow_id: authFlowId?.flow_id,
+    };
+    console.log(userData, 'data for back in auth ');
+
+    mutate(userData);
   };
 
   return (

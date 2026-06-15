@@ -29,7 +29,7 @@ export const Animate = ({ setIsInsideAnimate, isOverText, setIsOverText }: Anima
               animate={{ opacity: 1, y: 0, scale: 1.4, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -12, scale: 0.9, filter: 'blur(4px)' }}
               transition={{ duration: 0.3 }}
-              className='text-[20px] text-white tracking-[0.3em] font-light uppercase pointer-events-none origin-center'>
+              className='will-change-transform transform-gpu text-[20px] text-white tracking-[0.3em] font-light uppercase pointer-events-none origin-center'>
               Arima
             </motion.p>
           ) : (
@@ -39,7 +39,7 @@ export const Animate = ({ setIsInsideAnimate, isOverText, setIsOverText }: Anima
               animate={{ opacity: 1, y: 0, scale: 1, filter: 'blur(0px)' }}
               exit={{ opacity: 0, y: -12, scale: 0.9, filter: 'blur(4px)' }}
               transition={{ duration: 0.3 }}
-              className='text-[20px] text-white/80 tracking-[0.3em] font-light uppercase pointer-events-none origin-center'>
+              className='will-change-transform transform-gpu text-[20px] text-white/80 tracking-[0.3em] font-light uppercase pointer-events-none origin-center'>
               Tauri
             </motion.p>
           )}

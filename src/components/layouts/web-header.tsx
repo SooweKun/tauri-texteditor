@@ -1,39 +1,43 @@
+/* eslint-disable react-hooks/set-state-in-effect */
+'use client';
+import Cookies from 'js-cookie';
 import Link from 'next/link';
+import { useEffect, useState } from 'react';
+import { HeaderAvatar } from '../feature/header-avatar';
 
 export const WebHeader = () => {
-  const isRegistered = false;
+  const [isRegistered, setIsRegistered] = useState(false);
+  const [isMounted, setIsMounted] = useState(false);
+
+  useEffect(() => {
+    setIsMounted(true);
+
+    const regComplete = Cookies.get('reg_complete');
+    if (regComplete === 'true') {
+      setIsRegistered(true);
+    }
+  }, []);
 
   return (
     <div className='w-full h-[65px] py-[10px] px-[85px] flex items-center justify-between'>
       <div className='w-max px-2 flex gap-0 items-end'>
-        <p className='text-[16px] text-white/80 tracking-[0.3em] font-light uppercase'>Tauri</p>
+        <Link href='/' className='text-[16px] text-white/80 tracking-[0.3em] font-light uppercase'>
+          Tauri
+        </Link>
       </div>
-      {/* <div className='w-[600px] p-2 flex gap-6 text-white/80 tracking-[0.3em] font-light uppercase justify-center ml-[80px]'>
-        <Link href='' className='hover:text-white'>
-          profile
-        </Link>
-        <Link href='' className='hover:text-white'>
-          cloud st
-        </Link>
-        <Link href='' className='hover:text-white'>
-          settings
-        </Link>
-        <Link href='' className='hover:text-white'>
-          dock
-        </Link>
-      </div> */}
       <div className='flex gap-[8px] text-white items-center'>
-        {isRegistered ? (
-          // <HeaderAvatar />
-          <div />
+        {!isMounted ? (
+          <div className='w-[120px] h-[31px]' />
+        ) : isRegistered ? (
+          <HeaderAvatar />
         ) : (
           <>
             <Link href='/authorization' className='text-white/80 tracking-[0.3em] font-light uppercase'>
-              sing in
+              sign in
             </Link>
             <span className='w-[0.5px] h-[31px] bg-white/80 rounded-2xl' />
             <Link href='/registration' className='text-white/80 tracking-[0.3em] font-light uppercase'>
-              sing up
+              sign up
             </Link>
           </>
         )}
